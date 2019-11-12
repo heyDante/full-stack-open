@@ -1,23 +1,22 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 
-const Header = (props) => {
+const Header = ({ heading }) => {
   return (
-    <h1>{props.heading}</h1>
+    <h1>{heading}</h1>
   );
 }
 
 
-const Button = (props) => {
+const Button = ( { handleClick, text } ) => {
   return (
-    <button onClick={props.handleClick}>{props.text}</button>
+    <button onClick={handleClick}>{text}</button>
   );
 }
 
 const Statistics = ({ good, neutral, bad}) => {
-
   const total = good + neutral + bad;
-  const average = ((good * 1) + (neutral * 0) + (bad * -1)) / total ;
+  const average = ((good * 1) + (neutral * 0) + (bad * -1)) / total;
   const positive = (good / total) * 100;
 
   if (total === 0) {
@@ -27,26 +26,33 @@ const Statistics = ({ good, neutral, bad}) => {
   }
 
   return (
-    <div>
-      <Statistic text="good" value={good}/>
-      <Statistic text="neutral" value={neutral}/>
-      <Statistic text="bad" value={bad}/>
-      <br />
-      <Statistic text="total" value={total}/>
-      <Statistic text="average" value={average}/>
-      <Statistic text="positive" value={positive}/>
-    </div>
+    <table>
+      <tbody>
+        <Statistic text="good" value={good}/>
+        <Statistic text="neutral" value={neutral}/>
+        <Statistic text="bad" value={bad}/>
+        <Statistic text="total" value={total}/>
+        <Statistic text="average" value={average}/>
+        <Statistic text="positive" value={positive}/>
+      </tbody>
+    </table>
   );
 }
 
 const Statistic = ( { text, value } ) => {
   if (text === "positive") {
     return (
-      <p>{text}: {value}%</p>
+      <tr>
+        <th>{text}</th>
+        <td>{value}%</td>
+    </tr>
     );
   }
   return (
-    <p>{text}: {value}</p>
+    <tr>
+      <th>{text}</th>
+      <td>{value}</td>
+    </tr>
   );
 }
 
