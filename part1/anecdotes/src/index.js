@@ -17,9 +17,6 @@ const App = ( { anecdotes } ) => {
   const [selected, setSelected] = useState(0);
   const [votes, setVotes] = useState(Array(anecdotes.length).fill(0));
 
-  console.log('votes', votes);
-  console.log('Most votes is index', votes.indexOf(Math.max(...votes)));
-
   const mostVotesIndex = votes.indexOf(Math.max(...votes));
 
   const handleClickSelected = () => {
@@ -36,7 +33,6 @@ const App = ( { anecdotes } ) => {
   return (
     <div>
       <h2>Anecdote of the day</h2>
-      {/* {props.anecdotes[selected] + ' has ' + votes[selected] + ' votes'} */}
       <Anecdote 
         anecdote={anecdotes[selected]} 
         votes={votes[selected]} 
