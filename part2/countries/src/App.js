@@ -11,7 +11,7 @@ const App = () => {
     axios
       .get('https://restcountries.eu/rest/v2/all')
       .then( (response) => { 
-        console.log('fulfilled')
+        console.log('fulfilled', response);
         setCountries(response.data);
       })
   };
