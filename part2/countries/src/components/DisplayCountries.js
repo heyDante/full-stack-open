@@ -1,12 +1,6 @@
 import React from 'react';
 import DisplayCountry from './DisplayCountry';
 
-// const Button = (props) => {
-//   return (
-//     <button onClick={props.handleClick}>{props.text}</button>
-//   );
-// }
-
 const DisplayCountries = ( { countries, searchTerm, setSearch } ) => {
 
   const handleClick = (country) => {
