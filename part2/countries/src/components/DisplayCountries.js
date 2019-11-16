@@ -7,10 +7,11 @@ import DisplayCountry from './DisplayCountry';
 //   );
 // }
 
-const DisplayCountries = ( { countries } ) => {
+const DisplayCountries = ( { countries, searchTerm, setSearch } ) => {
 
   const handleClick = (country) => {
-    console.log('countries', country);
+    // console.log('countries', country);
+    setSearch(country.name);
   }
 
   if (countries.length === 1) {
@@ -19,6 +20,17 @@ const DisplayCountries = ( { countries } ) => {
       country={countries}
     />
     );
+  }
+
+  else if (countries.length === 2 && 
+      ( countries.filter( (country) => country.name === searchTerm)).length !== 0 ) {
+      const setCountries = countries.filter( (country) => country.name === searchTerm);
+      // console.log(setCountries);
+      return (
+        <DisplayCountry 
+          country={setCountries}
+        />
+      );
   }
 
   else if (countries.length > 0 && countries.length <= 10) {

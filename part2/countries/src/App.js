@@ -24,7 +24,7 @@ const App = () => {
     setSearch(event.target.value);
   };
 
-  console.log('countries', filteredCountries);
+  // console.log('countries', filteredCountries);
 
   return (
     <div>
@@ -36,6 +36,8 @@ const App = () => {
       <br />
       <DisplayCountries 
         countries={filteredCountries}
+        searchTerm={search}
+        setSearch={setSearch}
       />
     </div>
   );
