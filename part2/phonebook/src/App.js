@@ -20,19 +20,28 @@ const App = () => {
 
   const filteredPersons = persons.filter( (person) => person.name.toLowerCase().search(new RegExp(filter.toLowerCase())) === -1 ? false : true ); 
 
-
   const handleSubmit = (event) => {
     event.preventDefault();
-    const alreadyThere = persons.find( (person) => person.name === newName)
-    if (alreadyThere) {
-      alert(`${newName} is already added to phonebook`);
-      return;
-    };
-    
+
     const newPerson = {
       name: newName,
       number: newNumber,
     };
+
+    const alreadyThere = persons.find( (person) => person.name === newName); // returns undefined if not found
+
+    if (alreadyThere) {
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+        contactServices
+          .modifyContact(alreadyThere.id, newPerson)
+          .then( (modifiedPerson) => {
+            setPersons(persons.map( (person) => person.id === alreadyThere.id ? modifiedPerson : person)) 
+            setNewName('');
+            setNewNumber('');
+          })
+      }
+      return;
+    }
 
     contactServices
       .create(newPerson)
@@ -50,14 +59,12 @@ const App = () => {
   const handleClick = (id, name) => {
     if(window.confirm(`Delete ${name}`)) {
       contactServices
-        .deleteNote(id)
+        .deleteContact(id)
         .then( (response) => {
           return setPersons(persons.filter( (person) => person.id !== id))
         })
     }
   }
-
-
 
   return (
     <div>
