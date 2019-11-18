@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Persons from './components/Persons';
 import PersonForm from './components/PersonForm';
 import Filter from './components/Filter';
-import axios from 'axios';
+import contactServices from './services/contacts';
 
 const App = () => {
   const [ persons, setPersons] = useState([]);
@@ -10,16 +10,24 @@ const App = () => {
   const [ newNumber, setNewNumber ] = useState('');
   const [ filter, setFilter ] = useState('');
 
-  const hook = () => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then( (response) => {
-        setPersons(response.data);
+  // const hook = () => {
+  //   axios
+  //     .get('http://localhost:3001/persons')
+  //     .then( (response) => {
+  //       setPersons(response.data);
+  //     })
+  // };
+
+
+  // useEffect(hook, []);
+
+  useEffect( () => {
+    contactServices
+      .getAll()
+      .then( (initialPersons) => {
+        return setPersons(initialPersons);
       })
-  };
-
-
-  useEffect(hook, []);
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -32,7 +40,16 @@ const App = () => {
       name: newName,
       number: newNumber,
     };
-    setPersons(persons.concat(newPerson));
+    // axios
+    //   .post('http://localhost:3001/persons', newPerson)
+    //   .then( (response) => {
+    //     return setPersons(persons.concat(response.data));
+    //   })
+    contactServices
+      .create(newPerson)
+      .then( (newPerson) => {
+        return setPersons(persons.concat(newPerson));
+      })
     setNewName('');
     setNewNumber('');
   }
