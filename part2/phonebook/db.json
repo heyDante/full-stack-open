@@ -1,16 +1,6 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "040-123456",
-      "id": 1
-    },
-    {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
-      "id": 2
-    },
-    {
       "name": "Dan Abramov",
       "number": "12-43-234345",
       "id": 3
@@ -26,14 +16,9 @@
       "id": 5
     },
     {
-      "name": "Adam Lai",
-      "number": "34345335",
+      "name": "Huin",
+      "number": "78-4954954",
       "id": 6
-    },
-    {
-      "name": "Julian Argi",
-      "number": "45445466",
-      "id": 7
     }
   ]
 }

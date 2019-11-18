@@ -1,12 +1,14 @@
 import React from 'react';
 import Person from './Person';
 
-const Persons = ( { persons } ) => {
+const Persons = ( { persons, handleClick } ) => {
   const list = persons.map( (person) => 
     <Person 
-      key={person.name}
+      id={person.id}
+      key={person.id}
       name={person.name}
       number={person.number}
+      handleClick={handleClick}
     />
   );
   return (

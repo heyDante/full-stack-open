@@ -10,17 +10,6 @@ const App = () => {
   const [ newNumber, setNewNumber ] = useState('');
   const [ filter, setFilter ] = useState('');
 
-  // const hook = () => {
-  //   axios
-  //     .get('http://localhost:3001/persons')
-  //     .then( (response) => {
-  //       setPersons(response.data);
-  //     })
-  // };
-
-
-  // useEffect(hook, []);
-
   useEffect( () => {
     contactServices
       .getAll()
@@ -29,6 +18,9 @@ const App = () => {
       })
   }, []);
 
+  const filteredPersons = persons.filter( (person) => person.name.toLowerCase().search(new RegExp(filter.toLowerCase())) === -1 ? false : true ); 
+
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const alreadyThere = persons.find( (person) => person.name === newName)
@@ -36,15 +28,12 @@ const App = () => {
       alert(`${newName} is already added to phonebook`);
       return;
     };
+    
     const newPerson = {
       name: newName,
       number: newNumber,
     };
-    // axios
-    //   .post('http://localhost:3001/persons', newPerson)
-    //   .then( (response) => {
-    //     return setPersons(persons.concat(response.data));
-    //   })
+
     contactServices
       .create(newPerson)
       .then( (newPerson) => {
@@ -58,7 +47,16 @@ const App = () => {
     setFilter(event.target.value);
   }
 
-  const filteredPersons = persons.filter( (person) => person.name.toLowerCase().search(new RegExp(filter.toLowerCase())) === -1 ? false : true ); 
+  const handleClick = (id, name) => {
+    if(window.confirm(`Delete ${name}`)) {
+      contactServices
+        .deleteNote(id)
+        .then( (response) => {
+          return setPersons(persons.filter( (person) => person.id !== id))
+        })
+    }
+  }
+
 
 
   return (
@@ -77,7 +75,10 @@ const App = () => {
         setNewNumber={setNewNumber}
       />
       <h2>Numbers</h2>
-      <Persons persons={filteredPersons} />
+      <Persons 
+        persons={filteredPersons} 
+        handleClick={handleClick}
+      />
     </div>
   );
 };
