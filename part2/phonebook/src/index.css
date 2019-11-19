@@ -11,3 +11,28 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.delete, 
+.add, 
+.update
+.error {
+  padding: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.delete, .error {
+  color: hsl(0, 74%, 24%);
+  background-color: hsl(0, 43%, 82%);
+}
+
+.add {
+  color: hsl(119, 74%, 24%);
+  background-color: hsl(119, 43%, 82%);
+}
+
+.update {
+  color: hsl(58, 74%, 24%);
+  background-color: hsl(58, 43%, 82%);
+}
+

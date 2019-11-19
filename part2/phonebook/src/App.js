@@ -3,12 +3,15 @@ import Persons from './components/Persons';
 import PersonForm from './components/PersonForm';
 import Filter from './components/Filter';
 import contactServices from './services/contacts';
+import Notification from './components/Notification';
+import './index.css'
 
 const App = () => {
   const [ persons, setPersons] = useState([]);
   const [ newName, setNewName ] = useState('');
   const [ newNumber, setNewNumber ] = useState('');
   const [ filter, setFilter ] = useState('');
+  const [ notification, setNotification ] = useState(null);
 
   useEffect( () => {
     contactServices
@@ -35,6 +38,10 @@ const App = () => {
         contactServices
           .modifyContact(alreadyThere.id, newPerson)
           .then( (modifiedPerson) => {
+            setNotification({type: 'update', message: 'Updated!'});
+            setTimeout(() => {
+              setNotification(null);
+            }, 3000);
             setPersons(persons.map( (person) => person.id === alreadyThere.id ? modifiedPerson : person)) 
             setNewName('');
             setNewNumber('');
@@ -46,6 +53,10 @@ const App = () => {
     contactServices
       .create(newPerson)
       .then( (newPerson) => {
+        setNotification({type: 'add', message: 'Added!'});
+        setTimeout(() => {
+          setNotification(null);
+        }, 3000);
         return setPersons(persons.concat(newPerson));
       })
     setNewName('');
@@ -61,6 +72,10 @@ const App = () => {
       contactServices
         .deleteContact(id)
         .then( (response) => {
+          setNotification({type: 'delete', message: 'Deleted'});
+          setTimeout(() => {
+            setNotification(null);
+          }, 3000);
           return setPersons(persons.filter( (person) => person.id !== id))
         })
     }
@@ -68,6 +83,9 @@ const App = () => {
 
   return (
     <div>
+      <Notification 
+        notification={notification}
+      />
       <h2>Phonebook</h2>
       <Filter 
         filter={filter}
