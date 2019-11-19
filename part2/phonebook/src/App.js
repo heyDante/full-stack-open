@@ -38,11 +38,20 @@ const App = () => {
         contactServices
           .modifyContact(alreadyThere.id, newPerson)
           .then( (modifiedPerson) => {
-            setNotification({type: 'update', message: 'Updated!'});
+            setNotification({type: 'update', message: `Updated ${modifiedPerson.name}!`});
             setTimeout(() => {
               setNotification(null);
             }, 3000);
             setPersons(persons.map( (person) => person.id === alreadyThere.id ? modifiedPerson : person)) 
+            setNewName('');
+            setNewNumber('');
+          })
+          .catch( (error) => {
+            setNotification({type: 'error', message: `${newName} is already removed from the server`});
+            setTimeout(() => {
+              setNotification(null);
+            }, 3000);
+            setPersons(persons.filter( (person) => person.id !== alreadyThere.id ));
             setNewName('');
             setNewNumber('');
           })
@@ -53,7 +62,7 @@ const App = () => {
     contactServices
       .create(newPerson)
       .then( (newPerson) => {
-        setNotification({type: 'add', message: 'Added!'});
+        setNotification({type: 'add', message: `Added ${newPerson.name}!`});
         setTimeout(() => {
           setNotification(null);
         }, 3000);
@@ -72,7 +81,7 @@ const App = () => {
       contactServices
         .deleteContact(id)
         .then( (response) => {
-          setNotification({type: 'delete', message: 'Deleted'});
+          setNotification({type: 'delete', message: `Deleted ${name}`});
           setTimeout(() => {
             setNotification(null);
           }, 3000);
