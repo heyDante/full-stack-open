@@ -1,11 +1,6 @@
 {
   "persons": [
     {
-      "name": "Jennifer Lawrence",
-      "number": "3435251",
-      "id": 5
-    },
-    {
       "name": "Mark Evans",
       "number": "42323-325235",
       "id": 12
