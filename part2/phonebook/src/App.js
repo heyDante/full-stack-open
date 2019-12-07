@@ -68,6 +68,16 @@ const App = () => {
         }, 3000);
         return setPersons(persons.concat(newPerson));
       })
+      /* -- Validating errors with data from mongoose -- */
+      .catch( (error) => {
+        console.log(error.response.data);
+        setNotification({type: 'error', message: error.response.data.error});
+        setTimeout(() => {
+          setNotification(null);
+        }, 5000);
+      })
+
+
     setNewName('');
     setNewNumber('');
   }
