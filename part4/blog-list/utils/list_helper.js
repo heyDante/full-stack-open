@@ -10,7 +10,24 @@ const totalLikes = (blogs) => {
   return arrOfLikes.reduce( (acc, curr) => acc + curr, 0);
 };
 
+const favoriteBlog = (blogs) => {
+  const arrOfLikes = blogs.map( (blog) => {
+    return blog.likes;
+  });
+
+  const indexOfHighestLikes = arrOfLikes.indexOf(Math.max(...arrOfLikes));
+
+  const blog = blogs[indexOfHighestLikes];
+
+  return {
+    title: blog.title,
+    author: blog.author,
+    likes: blog.likes
+  };
+}
+
 module.exports = {
   dummy,
-  totalLikes
+  totalLikes,
+  favoriteBlog
 };
