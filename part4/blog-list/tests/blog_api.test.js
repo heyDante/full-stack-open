@@ -102,7 +102,6 @@ test('Title and URL should not be missing', async () => {
     .expect(400);
 });
 
-
 /* -- DELETE -- */
 test('blog with a valid ID can be deleted', async () => {
   const blogsAtStart = await Blog.find({});

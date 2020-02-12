@@ -12,7 +12,7 @@ const app = express();
 
 logger.info('connecting to MongoDB Atlas..', config.MONGODB_URI);
 
-mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
   .then( () => {
     logger.info('connected to MongoDB Atlas');
   })
