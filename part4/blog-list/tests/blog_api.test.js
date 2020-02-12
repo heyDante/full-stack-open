@@ -72,6 +72,23 @@ test('a new blog can be added', async () => {
   expect(blogTitle).toContain("I'm a new Blog added from jest");
 });
 
+test('likes default to 0, if not present', async () => {
+  const newBlog = new Blog({
+    title: "Likes default to 0",
+    author: "fullstackopen",
+    url: "fullstackopen.com/en"
+  });
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/);
+  
+  const newBlogAdded = await Blog.find({title: "Likes default to 0"});
+  expect(newBlogAdded[0].likes).toBe(0);
+});
+
 afterAll(() => {
   mongoose.connection.close();
 });
