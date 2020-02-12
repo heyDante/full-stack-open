@@ -58,7 +58,7 @@ test('a new blog can be added', async () => {
     url: "fullstackopen.com/en",
     likes: 100
   });
-
+  
   await api
     .post('/api/blogs')
     .send(newBlog)
@@ -87,6 +87,19 @@ test('likes default to 0, if not present', async () => {
   
   const newBlogAdded = await Blog.find({title: "Likes default to 0"});
   expect(newBlogAdded[0].likes).toBe(0);
+});
+
+test('Title and URL should not be missing', async () => {
+  const newBlog = new Blog({
+    title: '',
+    author: "fullstackopen",
+    url: ''
+  });
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400);
 });
 
 afterAll(() => {
