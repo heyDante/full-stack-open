@@ -50,6 +50,28 @@ test('the UID is named \'id\'', async () => {
   expect(response.body[0].id).toBeDefined();
 });
 
+/* -- POST -- */
+test('a new blog can be added', async () => {
+  const newBlog = new Blog({
+    title: "I'm a new Blog added from jest",
+    author: "fullstackopen",
+    url: "fullstackopen.com/en",
+    likes: 100
+  });
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/);
+
+  const blogsAtEnd = await Blog.find({});
+  expect(blogsAtEnd.length).toBe(initialBlogs.length + 1);
+
+  const blogTitle = blogsAtEnd.map((blog) => blog.title);
+  expect(blogTitle).toContain("I'm a new Blog added from jest");
+});
+
 afterAll(() => {
   mongoose.connection.close();
 });
