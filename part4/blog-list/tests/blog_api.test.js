@@ -58,7 +58,7 @@ test('a new blog can be added', async () => {
     url: "fullstackopen.com/en",
     likes: 100
   });
-  
+
   await api
     .post('/api/blogs')
     .send(newBlog)
@@ -100,6 +100,19 @@ test('Title and URL should not be missing', async () => {
     .post('/api/blogs')
     .send(newBlog)
     .expect(400);
+});
+
+
+/* -- DELETE -- */
+test('blog with a valid ID can be deleted', async () => {
+  const blogsAtStart = await Blog.find({});
+  const firstBlog = blogsAtStart[0];
+  await api
+    .delete(`/api/blogs/${firstBlog.id}`)
+    .expect(204);
+  
+  const blogsAtEnd = await Blog.find({});
+  expect(blogsAtEnd.length).toBe(blogsAtStart.length - 1);
 });
 
 afterAll(() => {
