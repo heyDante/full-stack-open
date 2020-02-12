@@ -1,4 +1,4 @@
-const dummy = (blogs) => {
+const dummy = () => {
   return 1;
 };
 
@@ -24,7 +24,17 @@ const favoriteBlog = (blogs) => {
     author: blog.author,
     likes: blog.likes
   };
-}
+};
+
+// const mostBlogs = (blogs) => {
+
+//   const arrayOfUsersWithMostBlog = [];
+
+//   blogs.forEach((blog) => {
+//     let author = blog.author;
+//     arrayOfUsersWithMostBlog.find((eachBlog))
+//   });
+// }
 
 module.exports = {
   dummy,
