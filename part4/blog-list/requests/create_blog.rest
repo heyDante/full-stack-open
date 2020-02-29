@@ -1,10 +1,19 @@
 post http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhhcnJ5cG90dGVyIiwiaWQiOiI1ZTVhNGQ5OTBjNDNiNzBmYTc1OTgzYWYiLCJpYXQiOjE1ODI5OTk2NDB9.viFHOzjuxon09AYQHFhjZLeWqi0S6KQx-P5gfINdeYA
 
 {
-  "title": "Chromatic Juncture",
+  "title": "JWT Token",
   "author": "Henry",
   "url": "https://juncture.com",
-  "likes": 0,
-  "userId": "5e5a6915e08414113ef74047"
+  "likes": 0
 }
+
+
+# {
+#   "title": "Chromatic Juncture",
+#   "author": "Henry",
+#   "url": "https://juncture.com",
+#   "likes": 0,
+#   "userId": "5e5a6915e08414113ef74047"
+# }
