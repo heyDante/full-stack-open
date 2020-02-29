@@ -12,6 +12,19 @@ usersRouter.post('/', async (req, res, next) => {
   try {
     const body = req.body;
     const password = body.password;
+
+    if (password === '') {
+      res.status(400).json({
+        error: 'Password cannot be empty'
+      });
+      return;
+    } else if (password.length < 3) {
+      res.status(400).json({
+        error: 'Password should be atleast 3 characters long'
+      });
+      return;
+    }
+
     const saltRounds = 10;
 
     const passwordHash = await brcypt.hash(password, saltRounds);
