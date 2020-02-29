@@ -1,16 +1,16 @@
 const express = require('express');
 const Blog = require('../models/blog');
 
-const blogRouter = express.Router();
+const blogsRouter = express.Router();
 
-blogRouter.get('/', async (req, res) => {
+blogsRouter.get('/', async (req, res) => {
   const blogs = await Blog.find({});
   res.json(blogs.map((blog) => blog.toJSON()));
 });
 
 
 /* -- POST method -- */
-blogRouter.post('/', async (req, res, next) => {
+blogsRouter.post('/', async (req, res, next) => {
 
   const blog = new Blog(req.body); // create a new object from the model
   
@@ -23,7 +23,7 @@ blogRouter.post('/', async (req, res, next) => {
 });
 
 /* -- PUT method -- */
-blogRouter.put('/:id', async (req, res, next) => {
+blogsRouter.put('/:id', async (req, res, next) => {
   const body = req.body;
   const updatedBlog = {
     title: body.title,
@@ -41,7 +41,7 @@ blogRouter.put('/:id', async (req, res, next) => {
 });
 
 /* -- DELETE method -- */
-blogRouter.delete('/:id', async (req, res, next) => {
+blogsRouter.delete('/:id', async (req, res, next) => {
   const id = req.params.id;
   try {
     await Blog.findByIdAndDelete(id);
@@ -52,4 +52,4 @@ blogRouter.delete('/:id', async (req, res, next) => {
 });
 
 
-module.exports = blogRouter;
+module.exports = blogsRouter;
