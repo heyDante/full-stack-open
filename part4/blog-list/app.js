@@ -26,6 +26,7 @@ mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology
 app.use(cors());
 app.use(bodyParser.json());
 app.use(middleware.requestLogger);
+app.use(middleware.tokenExtractor);
 
 /* -- The middlewares defined above will be used for the route defined below -- */
 app.use('/api/blogs', blogsRouter);

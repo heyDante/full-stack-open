@@ -13,17 +13,10 @@ blogsRouter.get('/', async (req, res) => {
 });
 
 
-const getTokenFrom = (req) => {
-  const authorization = req.get('authorization');
-  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    return authorization.substring(7);
-  }
-};
-
 /* -- POST method -- */
 blogsRouter.post('/', async (req, res, next) => {
 
-  const token = getTokenFrom(req);
+  const token = req.token;
 
   try {
     const body = req.body;
