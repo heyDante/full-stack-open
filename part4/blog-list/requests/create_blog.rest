@@ -2,8 +2,9 @@ post http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-  "title": "First Post",
-  "author": "heyDante",
-  "url": "https://xyz.com",
-  "likes": 27
+  "title": "Chromatic Juncture",
+  "author": "Henry",
+  "url": "https://juncture.com",
+  "likes": 0,
+  "userId": "5e5a6915e08414113ef74047"
 }
