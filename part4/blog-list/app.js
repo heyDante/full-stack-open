@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 
 const blogsRouter = require('./controllers/blogsRouter');
 const usersRouter = require('./controllers/usersRouter');
+const loginRouter = require('./controllers/loginRouter');
 
 const config = require('./utils/config');
 const middleware = require('./utils/middleware');
@@ -29,6 +30,7 @@ app.use(middleware.requestLogger);
 /* -- The middlewares defined above will be used for the route defined below -- */
 app.use('/api/blogs', blogsRouter);
 app.use('/api/users', usersRouter);
+app.use('/api/login', loginRouter);
 
 app.use(middleware.unknownRouteHandler);
 app.use(middleware.errorHandler);
