@@ -70,9 +70,22 @@ blogsRouter.put('/:id', async (req, res, next) => {
 
 /* -- DELETE method -- */
 blogsRouter.delete('/:id', async (req, res, next) => {
-  const id = req.params.id;
+  const blogId = req.params.id;
   try {
-    await Blog.findByIdAndDelete(id);
+    const token = req.token;
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+
+    const blogToDelete = await Blog.findById(blogId);
+
+    const allowedToDelete = decodedToken.id.toString() === blogToDelete.user.toString();
+
+    if (!token || !allowedToDelete) {
+      return res.status(401).json({
+        error: 'Invalid token or Blog not created by user who wants to delete.'
+      });
+    }
+
+    await Blog.findByIdAndDelete(blogId);
     res.status(204).end(); 
   } catch (error) {
     next(error);
