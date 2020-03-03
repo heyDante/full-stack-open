@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Blog from './components/Blog';
 
@@ -13,26 +13,39 @@ function App() {
   const [ password, setPassword ] = useState('');
   const [ user, setUser ] = useState(null);
 
-  const isInitialMount = useRef(true);
-
   useEffect(() => {
-    isInitialMount.current ? isInitialMount.current = false :
-    (async () => {
-      const blogsFetched = await blogService.getAll();
-      console.log(blogsFetched, user);
-      const filteredBlogs = blogsFetched.filter((blog) => blog.user.username === user.username);
-      setBlogs(filteredBlogs);
-    })();
-  }, [user]);
+    blogService.getAll()
+      .then(initialBlogs => {
+        setBlogs(initialBlogs);
+      });
+      // const filteredBlogs = blogsFetched.filter((blog) => blog.user.username === user.username);
+  }, []);
+
+  /* -- Adding loggedInUser if available -- */
+  useEffect(() => {
+    const loggedInUserAvailable = window.localStorage.getItem('loggedInUser');
+    console.log(loggedInUserAvailable);
+    if(loggedInUserAvailable) {
+      setUser(JSON.parse(loggedInUserAvailable));
+    };
+  }, []);
 
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
       const userDetails = await loginService.login({ username, password });
       setUser(userDetails);
+      window.localStorage.setItem('loggedInUser', JSON.stringify(userDetails));
+      setUsername('');
+      setPassword('');
     } catch (error) {
       console.log('Invalid username or password');
     }
+  };
+
+  const handleLogout = (event) => {
+    window.localStorage.clear();
+    setUser(null);
   };
 
   if (user === null) {
@@ -59,8 +72,9 @@ function App() {
   return (
     <div>
       <p>{`${user.name} logged in`}</p>
+      <button onClick={handleLogout}>Log out</button>
       <h2>blogs</h2>
-      {blogs.map(blog =>
+      {blogs.filter((blog) => blog.user.username === user.username).map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
     </div>
