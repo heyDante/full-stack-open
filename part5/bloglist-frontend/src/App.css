@@ -4,3 +4,13 @@
   margin: 0 auto;
   text-align: center;
 }
+
+.form-input {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+label {
+  margin-right: 1rem;
+}

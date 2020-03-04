@@ -12,21 +12,25 @@ function App() {
   const [ username, setUsername ] = useState('');
   const [ password, setPassword ] = useState('');
   const [ user, setUser ] = useState(null);
+  const [ title, setTitle ] = useState('');
+  const [ author, setAuthor ] = useState('');
+  const [ url, setUrl ] = useState('');
+
 
   useEffect(() => {
     blogService.getAll()
-      .then(initialBlogs => {
+      .then((initialBlogs => {
         setBlogs(initialBlogs);
-      });
-      // const filteredBlogs = blogsFetched.filter((blog) => blog.user.username === user.username);
+      }));
   }, []);
 
   /* -- Adding loggedInUser if available -- */
   useEffect(() => {
     const loggedInUserAvailable = window.localStorage.getItem('loggedInUser');
-    console.log(loggedInUserAvailable);
     if(loggedInUserAvailable) {
       setUser(JSON.parse(loggedInUserAvailable));
+      // console.log('useEffect', JSON.parse(loggedInUserAvailable).token);
+      blogService.setToken(JSON.parse(loggedInUserAvailable).token);
     };
   }, []);
 
@@ -35,9 +39,13 @@ function App() {
     try {
       const userDetails = await loginService.login({ username, password });
       setUser(userDetails);
+
+      /* -- Setting token when logging in -- */
+      blogService.setToken(userDetails.token);
+      console.log(userDetails.token);
+
+      /* --Setting the userdetails to local storage for persisiting sessions -- */
       window.localStorage.setItem('loggedInUser', JSON.stringify(userDetails));
-      setUsername('');
-      setPassword('');
     } catch (error) {
       console.log('Invalid username or password');
     }
@@ -46,6 +54,28 @@ function App() {
   const handleLogout = (event) => {
     window.localStorage.clear();
     setUser(null);
+  };
+
+  const handleCreateBlog = async (event) => {
+    event.preventDefault();
+    try {
+      const newBlog = {
+        title,
+        author,
+        url
+      };
+      await blogService.createBlog(newBlog);
+
+      setTitle('');
+      setAuthor('');
+      setUrl('');
+      /* -- Updated the existing blogs present in our App, with the new data from database -- */
+      const updatedBlogs = await blogService.getAll();
+      setBlogs(updatedBlogs);
+
+    } catch (error) {
+      console.log('Error creating blog. Invalid User');
+    }
   };
 
   if (user === null) {
@@ -71,8 +101,31 @@ function App() {
 
   return (
     <div>
-      <p>{`${user.name} logged in`}</p>
-      <button onClick={handleLogout}>Log out</button>
+      <div>
+        <p>{`${user.name} logged in`}</p>
+        <button onClick={handleLogout}>Log out</button>
+      </div>
+      <div>
+        <h2>Create new</h2>
+        <form onSubmit={handleCreateBlog}>
+          <div className='form-input'>
+            <label htmlFor='title'>Title</label>
+            <input id='title' type='text' value={title} onChange={({ target }) => setTitle(target.value)}/>
+          </div>
+          
+          <div className='form-input'>
+            <label htmlFor='author'>Author</label>
+            <input id='author' type='text' value={author} onChange={({ target }) => setAuthor(target.value)}/>
+          </div>
+          
+          <div className='form-input'>
+            <label htmlFor='url'>Url</label>
+            <input id='url' type='text' value={url} onChange={({ target }) => setUrl(target.value)}/>
+          </div>
+
+          <button type='submit'>Create Blog</button>
+        </form>
+      </div>
       <h2>blogs</h2>
       {blogs.filter((blog) => blog.user.username === user.username).map(blog =>
         <Blog key={blog.id} blog={blog} />
