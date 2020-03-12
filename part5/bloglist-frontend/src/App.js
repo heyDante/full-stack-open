@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import Blog from './components/Blog';
 import Notification from './components/Notification/Notfication';
+import Togglable from './components/Togglable';
 
 import loginService from './services/login';
 import blogService from './services/blogs';
@@ -157,7 +158,7 @@ function App() {
         <p>{`${user.name} logged in`}</p>
         <button onClick={handleLogout}>Log out</button>
       </div>
-      <div>
+      <Togglable buttonLabel='new note'>
         <h2>Create new</h2>
         <form onSubmit={handleCreateBlog}>
           <div className='form-input'>
@@ -177,7 +178,7 @@ function App() {
 
           <button type='submit'>Create Blog</button>
         </form>
-      </div>
+      </Togglable>
       <h2>blogs</h2>
       {blogs.filter((blog) => blog.user.username === user.username).map(blog =>
         <Blog key={blog.id} blog={blog} />
