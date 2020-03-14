@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
-import Blog from './components/Blog';
+import Blog from './components/Blog/Blog';
 import Notification from './components/Notification/Notfication';
-import Togglable from './components/Togglable';
+import CreateBlog from './components/CreateBlog/CreateBlog';
 
 import loginService from './services/login';
 import blogService from './services/blogs';
@@ -14,9 +14,6 @@ function App() {
   const [ username, setUsername ] = useState('');
   const [ password, setPassword ] = useState('');
   const [ user, setUser ] = useState(null);
-  const [ title, setTitle ] = useState('');
-  const [ author, setAuthor ] = useState('');
-  const [ url, setUrl ] = useState('');
   const [ notificationObject, setNotificationObject ] = useState({type: null});
 
   useEffect(() => {
@@ -94,41 +91,6 @@ function App() {
     }, 3000);
   };
 
-  const handleCreateBlog = async (event) => {
-    event.preventDefault();
-    try {
-      const newBlog = {
-        title,
-        author,
-        url
-      };
-      const savedBlog = await blogService.createBlog(newBlog);
-
-      setTitle('');
-      setAuthor('');
-      setUrl('');
-
-      /* -- Updated the existing blogs present in our App, with the new data from database -- */
-      const updatedBlogs = await blogService.getAll();
-      setBlogs(updatedBlogs);
-
-      setNotificationObject({
-        type: 'created',
-        title: savedBlog.title,
-        author: savedBlog.author
-      });
-
-      setTimeout(() => {
-        setNotificationObject({
-          type: null
-        });
-      }, 3000);
-
-    } catch (error) {
-      console.log('Error creating blog. Invalid User');
-    }
-  };
-
   if (user === null) {
     return (
       <div>
@@ -158,27 +120,7 @@ function App() {
         <p>{`${user.name} logged in`}</p>
         <button onClick={handleLogout}>Log out</button>
       </div>
-      <Togglable buttonLabel='new note'>
-        <h2>Create new</h2>
-        <form onSubmit={handleCreateBlog}>
-          <div className='form-input'>
-            <label htmlFor='title'>Title</label>
-            <input id='title' type='text' value={title} onChange={({ target }) => setTitle(target.value)}/>
-          </div>
-          
-          <div className='form-input'>
-            <label htmlFor='author'>Author</label>
-            <input id='author' type='text' value={author} onChange={({ target }) => setAuthor(target.value)}/>
-          </div>
-          
-          <div className='form-input'>
-            <label htmlFor='url'>Url</label>
-            <input id='url' type='text' value={url} onChange={({ target }) => setUrl(target.value)}/>
-          </div>
-
-          <button type='submit'>Create Blog</button>
-        </form>
-      </Togglable>
+      <CreateBlog setBlogs={setBlogs} setNotificationObject={setNotificationObject}/>
       <h2>blogs</h2>
       {blogs.filter((blog) => blog.user.username === user.username).map(blog =>
         <Blog key={blog.id} blog={blog} />

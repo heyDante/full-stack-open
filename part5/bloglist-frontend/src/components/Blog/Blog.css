@@ -1,0 +1,33 @@
+.blog {
+	width: 20rem;
+	margin: 0 auto;
+	background-color: hsl(194, 3%, 47%);
+	padding: 0.5rem 0rem;
+	color: white;
+	margin-bottom: 0.8rem;
+	border-radius: 3px;
+}
+
+.blog-title {
+	font-size: 1rem;
+	letter-spacing: 0.025em;
+	cursor: pointer;
+	text-transform: uppercase;
+}
+
+.blog-details {
+	font-size: 0.8rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 1rem;
+}
+
+.hidden {
+	display: none;
+}
+
+.blog-details a:link, a:visited {
+	text-decoration: none;
+	color: inherit;
+}
