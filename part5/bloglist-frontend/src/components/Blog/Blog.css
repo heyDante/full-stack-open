@@ -1,11 +1,10 @@
 .blog {
 	width: 20rem;
 	margin: 0 auto;
-	background-color: hsl(194, 3%, 47%);
 	padding: 0.5rem 0rem;
-	color: white;
 	margin-bottom: 0.8rem;
 	border-radius: 3px;
+	border: 2px solid gray;
 }
 
 .blog-title {
