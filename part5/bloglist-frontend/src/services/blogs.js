@@ -29,9 +29,24 @@ const addLikes = async (updatedBlog, blogId) => {
   return response.data;
 };
 
+const removeBlog = async (blogId) => {
+  const headerConfig = {
+    headers: {
+      Authorization: token
+    }
+  };
+  
+  try {
+    await axios.delete(`${baseUrl}/${blogId}`, headerConfig);
+  } catch (error) {
+    console.log('Error deleting: Note not created by user or invalid token');
+  }
+};
+
 export default { 
   getAll,
   createBlog,
   addLikes,
+  removeBlog,
   setToken
 }

@@ -30,7 +30,21 @@ const Blog = ({ blog, setBlogs }) => {
     } catch (error) {
       console.log('error liking blog', error);
     }
+  };
 
+  const handleDelete = async (blog) => {
+    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
+      try {
+        await blogService.removeBlog(blog.id);
+
+        /* -- Updated the existing blogs present in our App, with the new data from database -- */
+        const updatedBlogs = await blogService.getAll();
+        setBlogs(updatedBlogs);
+
+      } catch (error) {
+        console.log('error');
+      }
+    }
   };
 
   return (
@@ -49,6 +63,7 @@ const Blog = ({ blog, setBlogs }) => {
         </div>
         <a href={blog.url}>{blog.url}</a>
         <p>{blog.user.name}</p>
+        <button onClick={() => handleDelete(blog)}>remove</button>
       </div>
     </div>
   );
