@@ -3,13 +3,20 @@ Content-Type: application/json
 
 
 {
-  "username": "Ginger",
-  "name": "Ginger Table",
-  "password": "a"
+  "username": "henryford",
+  "name": "Henry Ford",
+  "password": "henry"
 }
 
 # {
 #   "username": "harrypotter",
 #   "name": "Harry Potter",
 #   "password": "harry"
+# }
+
+
+# {
+#   "username": "henryford",
+#   "name": "Henry Ford",
+#   "password": "henry"
 # }
