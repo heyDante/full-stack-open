@@ -55,7 +55,7 @@ const Blog = ({ blog, setBlogs }) => {
           <button onClick={() => setShowMore(!showMore)}>{showMore ? 'hide' : 'view'}</button>
         </span>
       </h2>
-      <span style={{fontStyle: 'italic'}}>by {blog.author}</span>
+      <span className='blog-author'>by {blog.author}</span>
       <div className={ showMore ? 'blog-details' : 'hidden'}>
         <div>
           {blog.likes} likes  

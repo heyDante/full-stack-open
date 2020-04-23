@@ -32,7 +32,8 @@ function App() {
       // console.log('useEffect', JSON.parse(loggedInUserAvailable).token);
       blogService.setToken(JSON.parse(loggedInUserAvailable).token);
     };
-  }, []);
+    console.log(blogs);
+  }, [blogs]);
 
   useEffect(() => {
     if(user) {
