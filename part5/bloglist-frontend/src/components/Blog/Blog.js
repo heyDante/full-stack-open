@@ -57,12 +57,12 @@ const Blog = ({ blog, setBlogs }) => {
       </h2>
       <span className='blog-author'>by {blog.author}</span>
       <div className={ showMore ? 'blog-details' : 'hidden'}>
-        <div>
+        <div className='blog-likes'>
           {blog.likes} likes  
           <button onClick={() => handleLike(blog)}>like</button>
         </div>
         <a href={blog.url}>{blog.url}</a>
-        <p>{blog.user.name}</p>
+        <p className='blog-username'>{blog.user.name}</p>
         <button onClick={() => handleDelete(blog)}>remove</button>
       </div>
     </div>
