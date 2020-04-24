@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import Blog from './components/Blog/Blog';
 import Notification from './components/Notification/Notfication';
-import CreateBlog from './components/CreateBlog/CreateBlog';
+import BlogForm from './components/BlogForm/BlogForm';
 
 import loginService from './services/login';
 import blogService from './services/blogs';
@@ -127,6 +127,29 @@ function App() {
     }
   };
 
+  const addBlog = async (newBlog) => {
+    try {
+      const savedBlog = await blogService.createBlog(newBlog);
+      const updatedBlogs = await blogService.getAll();
+      setBlogs(updatedBlogs);
+
+      setNotificationObject({
+        type: 'created',
+        title: savedBlog.title,
+        author: savedBlog.author
+      });
+
+      setTimeout(() => {
+        setNotificationObject({
+          type: null
+        });
+      }, 5000);
+
+    } catch (error) {
+      console.log('Error, creating blog');
+    }
+  };
+
   if (user === null) {
     return (
       <div>
@@ -156,7 +179,7 @@ function App() {
         <p>{`${user.name} logged in`}</p>
         <button onClick={handleLogout}>Log out</button>
       </div>
-      <CreateBlog setBlogs={setBlogs} setNotificationObject={setNotificationObject}/>
+      <BlogForm addBlog={addBlog} />
       <h2>blogs</h2>
       {blogs
       .filter((blog) => blog.user.username === user.username)
