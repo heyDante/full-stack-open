@@ -32,8 +32,7 @@ function App() {
       // console.log('useEffect', JSON.parse(loggedInUserAvailable).token);
       blogService.setToken(JSON.parse(loggedInUserAvailable).token);
     };
-    console.log(blogs);
-  }, [blogs]);
+  }, []);
 
   useEffect(() => {
     if(user) {
@@ -92,6 +91,42 @@ function App() {
     }, 3000);
   };
 
+  const handleLike = async (blog) => {
+    console.log('Liked');
+
+    const updatedBlog = {
+      ...blog,
+      likes: blog.likes + 1
+    };
+
+    try {
+      const response = await blogService.addLikes(updatedBlog, blog.id);
+      console.log(response);
+
+      /* -- Updated the existing blogs present in our App, with the new data from database -- */
+      const updatedBlogs = await blogService.getAll();
+      setBlogs(updatedBlogs);
+
+    } catch (error) {
+      console.log('error liking blog', error);
+    }
+  };
+
+  const handleDelete = async (blog) => {
+    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
+      try {
+        await blogService.removeBlog(blog.id);
+
+        /* -- Updated the existing blogs present in our App, with the new data from database -- */
+        const updatedBlogs = await blogService.getAll();
+        setBlogs(updatedBlogs);
+
+      } catch (error) {
+        console.log('error');
+      }
+    }
+  };
+
   if (user === null) {
     return (
       <div>
@@ -127,7 +162,12 @@ function App() {
       .filter((blog) => blog.user.username === user.username)
       .sort((blogOne, blogTwo) => blogTwo.likes - blogOne.likes)
       .map(blog =>
-        <Blog key={blog.id} blog={blog} setBlogs={setBlogs}/>
+        <Blog 
+          key={blog.id} 
+          blog={blog}
+          handleLike={handleLike} 
+          handleDelete={handleDelete}
+        />
       )}
     </div>
   );

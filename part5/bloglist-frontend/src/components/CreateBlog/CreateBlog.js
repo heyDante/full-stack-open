@@ -38,7 +38,7 @@ const CreateBlog = ({ setBlogs, setNotificationObject }) => {
         setNotificationObject({
           type: null
         });
-      }, 3000);
+      }, 5000);
 
     } catch (error) {
       console.log('Error creating blog. Invalid User');

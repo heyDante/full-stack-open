@@ -20,8 +20,10 @@ describe('blog', () => {
 		}
 	};
 
+	const mockHandler = jest.fn();
+
 	beforeEach(() => {
-		component = render(<Blog blog={blog} />)
+		component = render(<Blog blog={blog} handleLike={mockHandler}/>)
 	});
 
 	test('first renders title and author only', () => {
@@ -45,4 +47,12 @@ describe('blog', () => {
 		const blogUsername = component.container.querySelector('.blog-details .blog-username');
 		expect(blogUsername).toHaveTextContent(blog.user.name);
 	});
+
+	test('does has its like button clicked twice', () => {
+		const likeButton = component.container.querySelector('.blog-likes button');
+		fireEvent.click(likeButton);
+		fireEvent.click(likeButton);
+		expect(mockHandler.mock.calls).toHaveLength(2);
+	});
 });
+
