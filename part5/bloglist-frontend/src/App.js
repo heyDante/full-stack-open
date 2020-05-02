@@ -14,7 +14,7 @@ function App() {
   const [ username, setUsername ] = useState('');
   const [ password, setPassword ] = useState('');
   const [ user, setUser ] = useState(null);
-  const [ notificationObject, setNotificationObject ] = useState({type: null});
+  const [ notificationObject, setNotificationObject ] = useState({ type: null });
 
   useEffect(() => {
     blogService.getAll()
@@ -31,14 +31,14 @@ function App() {
       setUser(JSON.parse(loggedInUserAvailable));
       // console.log('useEffect', JSON.parse(loggedInUserAvailable).token);
       blogService.setToken(JSON.parse(loggedInUserAvailable).token);
-    };
+    }
   }, []);
 
   useEffect(() => {
     if(user) {
       setNotificationObject({
         type: 'loggedIn',
-        user: user.username 
+        user: user.username
       });
 
       setTimeout(() => {
@@ -76,7 +76,7 @@ function App() {
     }
   };
 
-  const handleLogout = (event) => {
+  const handleLogout = () => {
     window.localStorage.clear();
     setUser(null);
 
@@ -87,7 +87,7 @@ function App() {
     setTimeout(() => {
       setNotificationObject({
         type: 'null'
-      })
+      });
     }, 3000);
   };
 
@@ -160,12 +160,12 @@ function App() {
             <label htmlFor='username'>username</label>
             <input id='username' type='text' value={username} onChange={({ target }) => setUsername(target.value)}/>
           </div>
-          
+
           <div>
             <label htmlFor='password'>password</label>
             <input id='password' type='password' value={password} onChange={({ target }) => setPassword(target.value)}/>
           </div>
-  
+
           <button type='submit'>Log In</button>
         </form>
       </div>
@@ -182,16 +182,16 @@ function App() {
       <BlogForm addBlog={addBlog} />
       <h2>blogs</h2>
       {blogs
-      .filter((blog) => blog.user.username === user.username)
-      .sort((blogOne, blogTwo) => blogTwo.likes - blogOne.likes)
-      .map(blog =>
-        <Blog 
-          key={blog.id} 
-          blog={blog}
-          handleLike={handleLike} 
-          handleDelete={handleDelete}
-        />
-      )}
+        .filter((blog) => blog.user.username === user.username)
+        .sort((blogOne, blogTwo) => blogTwo.likes - blogOne.likes)
+        .map(blog =>
+          <Blog
+            key={blog.id}
+            blog={blog}
+            handleLike={handleLike}
+            handleDelete={handleDelete}
+          />
+        )}
     </div>
   );
 }
