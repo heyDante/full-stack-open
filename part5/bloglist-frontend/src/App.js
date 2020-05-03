@@ -182,7 +182,6 @@ function App() {
       <BlogForm addBlog={addBlog} />
       <h2>blogs</h2>
       {blogs
-        .filter((blog) => blog.user.username === user.username)
         .sort((blogOne, blogTwo) => blogTwo.likes - blogOne.likes)
         .map(blog =>
           <Blog

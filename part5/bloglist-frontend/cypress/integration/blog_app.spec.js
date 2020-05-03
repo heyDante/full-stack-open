@@ -50,7 +50,7 @@ describe('Blog app', function() {
     });
   });
 
-  describe.only('When logged in', function() {
+  describe('When logged in', function() {
     beforeEach(function() {
       // cy.get('#username').type('markevans');
       // cy.get('#password').type('marky');
@@ -89,5 +89,37 @@ describe('Blog app', function() {
         cy.get('.blog-likes').contains(1);
       });
     });
+
+    describe.only('And multiple blogs are created', function() {
+      beforeEach(function() {
+        cy.createBlog({ title: 'First Blog', author: 'First Author', url: 'firsturl.com' });
+        cy.createBlog({ title: 'Second Blog', author: 'Second Author', url: 'secondurl.com' });
+        cy.createBlog({ title: 'Third Blog', author: 'Third Author', url: 'thirdurl.com' });
+      });
+
+      it('the logged in user can delete it', function() {
+        cy.contains('First Blog');
+        cy.contains('Second Blog');
+        cy.contains('Third Blog');
+
+        cy.contains('First Blog').contains('view').click();
+        cy.get('.blog-delete').then(buttons => buttons[0].click());
+
+        cy.get('body').should('not.contain', 'First Blog');
+      });
+
+      it('another logged in user cannot delete it', function() {
+        cy.contains('Log out').click();
+        cy.login({
+          username: 'johndoe',
+          password: 'johny'
+        });
+        cy.contains('First Blog');
+        cy.contains('First Blog').contains('view').click();
+        cy.get('.blog-delete').then(buttons => buttons[0].click());
+        cy.contains('First Blog');
+      });
+    });
   });
+
 });
