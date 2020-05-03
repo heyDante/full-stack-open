@@ -11,7 +11,7 @@ const Notification = ({ notificationObject }) => {
       <div className={`notification-box ${type}`}>
         Added
         <span> {title} </span>
-        by 
+        by
         <span> {author}</span>
       </div>
     );
