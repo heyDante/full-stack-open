@@ -39,4 +39,24 @@ describe('Blog app', function() {
         .and('have.css', 'color', 'rgb(115, 43, 43)');
     });
   });
+
+  describe.only('When logged in', function() {
+    beforeEach(function() {
+      cy.get('#username').type('markevans');
+      cy.get('#password').type('marky');
+      cy.get('button').click();
+    });
+
+    it('A blog can be created', function() {
+      cy.get('#button-label').click();
+      cy.get('#title').type('Cypress');
+      cy.get('#author').type('fullstackopen');
+      cy.get('#url').type('https://cypress.com');
+      cy.contains('Create Blog').click();
+
+      cy.get('.blog')
+        .should('contain', 'Cypress')
+        .and('contain', 'fullstackopen');
+    });
+  });
 });
