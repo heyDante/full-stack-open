@@ -90,11 +90,11 @@ describe('Blog app', function() {
       });
     });
 
-    describe.only('And multiple blogs are created', function() {
+    describe('And multiple blogs are created', function() {
       beforeEach(function() {
-        cy.createBlog({ title: 'First Blog', author: 'First Author', url: 'firsturl.com' });
-        cy.createBlog({ title: 'Second Blog', author: 'Second Author', url: 'secondurl.com' });
-        cy.createBlog({ title: 'Third Blog', author: 'Third Author', url: 'thirdurl.com' });
+        cy.createBlog({ title: 'First Blog', author: 'First Author', url: 'firsturl.com', likes: 12 });
+        cy.createBlog({ title: 'Second Blog', author: 'Second Author', url: 'secondurl.com', likes: 2 });
+        cy.createBlog({ title: 'Third Blog', author: 'Third Author', url: 'thirdurl.com', likes: 7 });
       });
 
       it('the logged in user can delete it', function() {
@@ -116,8 +116,17 @@ describe('Blog app', function() {
         });
         cy.contains('First Blog');
         cy.contains('First Blog').contains('view').click();
-        cy.get('.blog-delete').then(buttons => buttons[0].click());
+        cy.get('.blog-delete').then(buttons => cy.wrap(buttons[0]).click());
         cy.contains('First Blog');
+      });
+
+      it('blogs are ordered according to the number of likes', function() {
+        cy.get('.blog-likes')
+          .then((blogLikes) => {
+            cy.wrap(blogLikes[0]).should('contain', 12);
+            cy.wrap(blogLikes[1]).should('contain', 7);
+            cy.wrap(blogLikes[2]).should('contain', 2);
+          });
       });
     });
   });

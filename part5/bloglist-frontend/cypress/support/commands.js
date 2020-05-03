@@ -14,14 +14,15 @@ Cypress.Commands.add('createUser', ({ username, name, password }) => {
   });
 });
 
-Cypress.Commands.add('createBlog', ({ title, author, url }) => {
+Cypress.Commands.add('createBlog', ({ title, author, url, likes }) => {
   cy.request({
     url: 'http://localhost:3000/api/blogs',
     method: 'POST',
     body: {
       title,
       author,
-      url
+      url,
+      likes
     },
     headers: {
       'Authorization': `bearer ${JSON.parse(localStorage.getItem('loggedInUser')).token}`
