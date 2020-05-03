@@ -1,14 +1,24 @@
 describe('Blog app', function() {
   beforeEach(function() {
     cy.request('POST', 'http://localhost:3000/api/testing/reset');
-    const newUser = {
+    // const newUser = {
+    //   username: 'markevans',
+    //   name: 'Mark Evans',
+    //   password: 'marky'
+    // };
+    // /* -- Creating new user -- */
+    // cy.request('POST', 'http://localhost:3000/api/users', newUser);
+    cy.createUser({
       username: 'markevans',
       name: 'Mark Evans',
       password: 'marky'
-    };
-    /* -- Creating new user -- */
-    cy.request('POST', 'http://localhost:3000/api/users', newUser);
+    });
 
+    cy.createUser({
+      username: 'johndoe',
+      name: 'John Doe',
+      password: 'johny'
+    });
 
     cy.visit('http://localhost:3000');
   });
@@ -42,9 +52,13 @@ describe('Blog app', function() {
 
   describe.only('When logged in', function() {
     beforeEach(function() {
-      cy.get('#username').type('markevans');
-      cy.get('#password').type('marky');
-      cy.get('button').click();
+      // cy.get('#username').type('markevans');
+      // cy.get('#password').type('marky');
+      // cy.get('button').click();
+      cy.login({
+        username: 'markevans',
+        password: 'marky'
+      });
     });
 
     it('A blog can be created', function() {
@@ -57,6 +71,23 @@ describe('Blog app', function() {
       cy.get('.blog')
         .should('contain', 'Cypress')
         .and('contain', 'fullstackopen');
+    });
+
+    describe('And a blog is created', function() {
+      beforeEach(function() {
+        cy.createBlog({
+          title: 'Another blog by cypress',
+          author: 'Cypress',
+          url: 'https://cypress.com'
+        });
+      });
+
+      it('a user can like it', function() {
+        cy.contains('view').click();
+        cy.get('.blog-likes').contains(0);
+        cy.get('.blog-likes button').click();
+        cy.get('.blog-likes').contains(1);
+      });
     });
   });
 });
