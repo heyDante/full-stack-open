@@ -37,6 +37,17 @@ const reducer = (state = initialState, action) => {
       });
     }
 
+    case 'ADD_ANECDOTE': {
+      const content = action.data.content;
+      const newAnecdote = {
+        content,
+        id: getId(),
+        votes: 0
+      };
+
+      return [...state, newAnecdote];
+    }
+
     default:
       return state;
   }
