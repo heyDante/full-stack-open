@@ -1,0 +1,39 @@
+h1 {
+  border-bottom: 1px solid rgb(165, 165, 165);
+}
+
+h2 {
+  text-transform: capitalize;
+  margin-bottom: 14px;
+}
+
+button {
+  padding: 3px 12px;
+  border-style: none;
+  background-color: rgb(32, 32, 32);
+  color: #fff;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+button:not([type='submit']) {
+  background-color: #2381ad;
+  margin-left: 5px;
+}
+
+.anecdote {
+  margin-bottom: 15px;
+}
+
+.anecdote li {
+  font-size: 18px;
+}
+
+.anecdote div {
+  margin-top: 5px;
+}
+
+
+input {
+  margin-bottom: 12px;
+}

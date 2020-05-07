@@ -5,12 +5,12 @@ import { upvote } from '../reducers/anecdoteReducer';
 
 const Anecdote = ({ content, votes, handleUpvote }) => {
   return (
-    <div>
+    <div className="anecdote">
       <li>
         {content}
       </li>
       <div>
-        has {votes}
+         Votes: <strong>{votes}</strong>
         <button onClick={handleUpvote}>vote</button>
       </div>
     </div>
@@ -23,6 +23,7 @@ const AnecdoteList = () => {
 
   return (
     <div>
+      <h2>Anecdotes</h2>
       <ol>
         {
           anecdotes
