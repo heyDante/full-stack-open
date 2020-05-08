@@ -1,3 +1,7 @@
+#root {
+  position: relative;
+}
+
 h1 {
   border-bottom: 1px solid rgb(165, 165, 165);
 }
@@ -36,4 +40,33 @@ button:not([type='submit']) {
 
 input {
   margin-bottom: 12px;
+}
+
+.notification {
+  color: hsl(120, 100%, 17%);
+  background-color: hsl(120, 100%, 96%);
+  padding: 20px;
+  font-family: 'Lato';
+  text-align: center;
+
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  animation: slide-in-out 5s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 22px hsla(0, 0%, 89%, 0.432)
+}
+
+@keyframes slide-in-out {
+  20% {
+    transform: translate(-50%, 0%);
+  }
+
+  80% {
+    transform: translate(-50%, 0%);
+  }
+
+  100% {
+    transform: translate(-50%, -100%);
+  }
 }
