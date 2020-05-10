@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, connect } from 'react-redux';
 
 import { upvote } from '../reducers/anecdoteReducer';
 import { upvoteNotification } from '../reducers/notificationReducer';
@@ -18,10 +18,8 @@ const Anecdote = ({ content, votes, handleUpvote }) => {
   );
 };
 
-const AnecdoteList = () => {
+const AnecdoteList = ({ anecdotes, filterKeywords }) => {
   const dispatch = useDispatch();
-  const anecdotes = useSelector(state => state.anecdotes);
-  const filterKeywords = useSelector(state => state.filter);
 
   const handleUpvote = (anecdote) => {
     dispatch(upvote(anecdote));
@@ -51,4 +49,11 @@ const AnecdoteList = () => {
   );
 };
 
-export default AnecdoteList;
+const mapStateToProps = (state) => {
+  return {
+    anecdotes: state.anecdotes,
+    filterKeywords: state.filter
+  };
+};
+
+export default connect(mapStateToProps)(AnecdoteList);

@@ -1,12 +1,10 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, connect } from 'react-redux';
 
 import { updateFilterKeywords, clearFilter } from '../reducers/filterReducer';
 
-const Filter = () => {
+const Filter = ({ filterKeywords }) => {
   const dispatch = useDispatch();
-
-  const filterKeywords = useSelector(state => state.filter);
 
   const handleChange = (e) => {
     dispatch(updateFilterKeywords(e.target.value));
@@ -29,4 +27,10 @@ const Filter = () => {
   );
 };
 
-export default Filter;
+const mapStateToProps = (state) => {
+  return {
+    filterKeywords: state.filter
+  };
+};
+
+export default connect(mapStateToProps)(Filter);
