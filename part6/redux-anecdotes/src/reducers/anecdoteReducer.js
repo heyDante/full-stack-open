@@ -1,5 +1,3 @@
-const getId = () => (100000 * Math.random()).toFixed(0);
-
 const reducer = (state = [], action) => {
   console.log('state now: ', state);
   console.log('action', action);
@@ -21,13 +19,7 @@ const reducer = (state = [], action) => {
 
     case 'ADD_ANECDOTE': {
       const content = action.data.content;
-      const newAnecdote = {
-        content,
-        id: getId(),
-        votes: 0
-      };
-
-      return [...state, newAnecdote];
+      return [...state, content];
     }
 
     case 'INTIALIZE_ANECDOTES':
