@@ -20,7 +20,7 @@ const reducer = (state = [], action) => {
     }
 
     case 'ADD_ANECDOTE': {
-      const content = action.data.content;
+      const content = action.data;
       return [...state, content];
     }
 
@@ -43,19 +43,16 @@ export const upvote = (id) => {
 };
 
 export const createAnecdote = (content) => {
-  return {
-    type: 'ADD_ANECDOTE',
-    data: {
-      content
-    }
+  return async (dispatch) => {
+    const newAnecdote = await anecdoteServices.createAnecdote(content);
+    dispatch({
+      type: 'ADD_ANECDOTE',
+      data: newAnecdote
+    });
   };
 };
 
 export const initializeAnecdotes = () => {
-  // return {
-  //   type: 'INTIALIZE_ANECDOTES',
-  //   data
-  // };
   return async (dispatch) => {
     const anecdotes = await anecdoteServices.getAll();
     dispatch({

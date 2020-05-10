@@ -7,7 +7,7 @@ const getAll = async () => {
   return response.data;
 };
 
-const createAnecdote = async(content) => {
+const createAnecdote = async (content) => {
   const newAnecdote = {
     content,
     votes: 0
