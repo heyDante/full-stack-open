@@ -3,17 +3,19 @@ const initialState = {
   content: ''
 };
 
+let timerId;
+
 const notificationReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'NOTIFICATION_UPVOTED':
       return {
         notificationType: 'upvoted',
-        content: action.data.content
+        content: action.data
       };
     case 'NOTIFICATION_ADDED':
       return {
         notificationType: 'added',
-        content: action.data.content
+        content: action.data
       };
     case 'NOTIFICATION_EMPTY':
       return {
@@ -25,22 +27,42 @@ const notificationReducer = (state = initialState, action) => {
   }
 };
 
-export const upvoteNotification = (content) => {
-  return {
-    type: 'NOTIFICATION_UPVOTED',
-    data: {
-      content
+export const upvoteNotification = (content, duration) => {
+  return async (dispatch) => {
+    if(timerId) {
+      dispatch(emptyNotification());
     }
+
+    dispatch({
+      type: 'NOTIFICATION_UPVOTED',
+      data: content
+    });
+
+    /* -- timer is defined in the global scope -- */
+    timerId = setTimeout(() => {
+      dispatch(emptyNotification());
+    }, duration * 1000);
   };
 };
 
-export const addedNotification = (content) => {
-  return {
-    type: 'NOTIFICATION_ADDED',
-    data: {
-      content
+export const addedNotification = (content, duration) => {
+  return async (dispatch) => {
+    if(timerId) {
+      dispatch(emptyNotification());
     }
+
+    dispatch({
+      type: 'NOTIFICATION_ADDED',
+      data: content
+    });
+
+    /* -- timer is defined in the global scope -- */
+    timerId = setTimeout(() => {
+      dispatch(emptyNotification());
+    }, duration * 1000);
+
   };
+
 };
 
 export const emptyNotification = () => {
