@@ -7,15 +7,10 @@ const reducer = (state = [], action) => {
   switch (action.type) {
 
     case 'UPVOTE': {
-      const id = action.data.id;
-      const anecdoteToUpvote = state.find((n) => n.id === id);
-      const modifiedAnecdote = {
-        ...anecdoteToUpvote,
-        votes: anecdoteToUpvote.votes + 1
-      };
+      const upvotedAnecdote = action.data;
 
       return state.map((anecdote) => {
-        return anecdote.id !== id ? anecdote : modifiedAnecdote;
+        return anecdote.id !== upvotedAnecdote.id ? anecdote : upvotedAnecdote;
       });
     }
 
@@ -33,12 +28,13 @@ const reducer = (state = [], action) => {
 };
 
 /* -- Action Creators -- */
-export const upvote = (id) => {
-  return {
-    type: 'UPVOTE',
-    data: {
-      id
-    }
+export const upvote = (anecdote) => {
+  return async (dispatch) => {
+    const upvotedAnecdote = await anecdoteServices.upvoteAnecdote(anecdote);
+    dispatch({
+      type: 'UPVOTE',
+      data: upvotedAnecdote
+    });
   };
 };
 

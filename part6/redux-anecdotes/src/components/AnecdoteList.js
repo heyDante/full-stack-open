@@ -24,7 +24,8 @@ const AnecdoteList = () => {
   const filterKeywords = useSelector(state => state.filter);
 
   const handleUpvote = (anecdote) => {
-    dispatch(upvote(anecdote.id));
+    dispatch(upvote(anecdote));
+
     dispatch(upvoteNotification(anecdote.content));
     setTimeout(() => {
       dispatch(emptyNotification());
