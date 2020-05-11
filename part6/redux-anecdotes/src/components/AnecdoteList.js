@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, connect } from 'react-redux';
 
 import { upvote } from '../reducers/anecdoteReducer';
-import { upvoteNotification } from '../reducers/notificationReducer';
+import { upvoteNotification, timeoutId } from '../reducers/notificationReducer';
 
 const Anecdote = ({ content, votes, handleUpvote }) => {
   return (
@@ -24,6 +24,9 @@ const AnecdoteList = ({ anecdotes, filterKeywords }) => {
   const handleUpvote = (anecdote) => {
     dispatch(upvote(anecdote));
 
+    if (timeoutId) {
+      window.clearTimeout(timeoutId);
+    }
     dispatch(upvoteNotification(anecdote.content, 5));
   };
 

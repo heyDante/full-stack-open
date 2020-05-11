@@ -3,7 +3,7 @@ const initialState = {
   content: ''
 };
 
-let timerId;
+export let timeoutId;
 
 const notificationReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -28,26 +28,22 @@ const notificationReducer = (state = initialState, action) => {
 };
 
 export const upvoteNotification = (content, duration) => {
-  return async (dispatch) => {
-    if(timerId) {
-      dispatch(emptyNotification());
-    }
-
+  return (dispatch) => {
     dispatch({
       type: 'NOTIFICATION_UPVOTED',
       data: content
     });
 
     /* -- timer is defined in the global scope -- */
-    timerId = setTimeout(() => {
+    timeoutId = setTimeout(() => {
       dispatch(emptyNotification());
     }, duration * 1000);
   };
 };
 
 export const addedNotification = (content, duration) => {
-  return async (dispatch) => {
-    if(timerId) {
+  return (dispatch) => {
+    if(timeoutId) {
       dispatch(emptyNotification());
     }
 
@@ -57,7 +53,7 @@ export const addedNotification = (content, duration) => {
     });
 
     /* -- timer is defined in the global scope -- */
-    timerId = setTimeout(() => {
+    timeoutId = setTimeout(() => {
       dispatch(emptyNotification());
     }, duration * 1000);
 

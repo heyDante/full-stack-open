@@ -7,12 +7,11 @@ const Notification = () => {
   return (
     notification.notificationType
       ?
-      <div className="notification">
+      <div className="notification active">
         You <strong>{notification.notificationType}, </strong>
         {notification.content}
       </div>
       : null
-  // <div className="notification">hakjghakghajkghakhgkjh</div>
   );
 };
 
