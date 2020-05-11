@@ -8,8 +8,10 @@ Exercises for the [full stack open course](https://fullstackopen.com/en) offered
 
 * [Part 2](./part2) (Communicating with server)
 
-* [Part 3](./part3) (Programming a server with NodeJS and Express)
+* [Part 3](https://github.com/heyDante/phonebook-backend) (Programming a server with NodeJS and Express)
 
 * [Part 4](./part4) (Testing Express servers, user administration)
 
 * [Part 5](./part5) (Testing React apps)
+
+* [Part 6](./part6) (Redux)
