@@ -24,6 +24,15 @@ a:visited {
   text-decoration: none;
 }
 
+li {
+  font-size: 18px;
+}
+
+/* -- Anecdote -- */
+.anecdote {
+  margin-top: 16px;
+}
+
 /* -- Form -- */
 .form button {
   padding: 5px 10px;
