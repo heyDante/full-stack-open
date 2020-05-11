@@ -3,7 +3,8 @@ import {
   Link, 
   Route, 
   Switch, 
-  useRouteMatch, 
+  useRouteMatch,
+  useHistory, 
 } from 'react-router-dom';
 
 const Menu = () => {
@@ -30,8 +31,8 @@ const AnecdoteList = ({ anecdotes }) => (
     <ul>
       {
         anecdotes.map(anecdote => 
-          <Link to={`/anecdote/${anecdote.id}`}>
-            <li key={anecdote.id} anecdote={anecdote}>{anecdote.content}</li>
+          <Link to={`/anecdote/${anecdote.id}`} key={anecdote.id} >
+            <li anecdote={anecdote}>{anecdote.content}</li>
           </Link>
         )
       }
@@ -67,6 +68,7 @@ const CreateNew = (props) => {
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
 
+  const history = useHistory();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -76,6 +78,16 @@ const CreateNew = (props) => {
       info,
       votes: 0
     });
+    props.setNotification(content);
+    
+    setContent('');
+    setAuthor('');
+    setInfo('');
+
+    history.push('/');
+    setTimeout(() => {
+      props.setNotification('');
+    }, 10000);
   };
 
   return (
@@ -144,10 +156,19 @@ const App = () => {
     ? anecdoteById(match.params.id)
     : null
 
-  console.log(anecdote);
+  // console.log(anecdote);
 
   return (
     <div>
+      {
+        notification
+        ? <div className="notification">
+            A new anecdote 
+            <span style={{fontWeight: 600}}> {notification} </span>
+            was created !
+          </div>
+        : null
+      }
       <h1>Software anecdotes</h1>
         <Menu />
 
@@ -161,7 +182,7 @@ const App = () => {
           </Route>
 
           <Route path='/create'>
-            <CreateNew addNew={addNew} />
+            <CreateNew addNew={addNew} setNotification={setNotification}/>
           </Route>
 
           <Route path='/'>
