@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
+import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 
 const Menu = () => {
   return (
     <div className="nav">
-      <a href='#'>anecdotes</a>
-      <a href='#'>create new</a>
-      <a href='#'>about</a>
+      <Link to='/'><a href='#'>anecdotes</a></Link>
+      <Link to='/create'><a href='#'>create new</a></Link>
+      <Link to='/about'><a href='#'>about</a></Link>
     </div>
   )
 }
@@ -123,11 +124,25 @@ const App = () => {
   return (
     <div>
       <h1>Software anecdotes</h1>
-      <Menu />
-      <AnecdoteList anecdotes={anecdotes} />
-      <About />
-      <CreateNew addNew={addNew} />
-      <Footer />
+      <Router>
+        <Menu />
+
+        <Switch>
+          <Route path='/about'>
+            <About />
+          </Route>
+
+          <Route path='/create'>
+            <CreateNew addNew={addNew} />
+          </Route>
+
+          <Route path='/'>
+            <AnecdoteList anecdotes={anecdotes} />
+          </Route>
+
+        </Switch>
+        <Footer />
+      </Router>
     </div>
   )
 }
