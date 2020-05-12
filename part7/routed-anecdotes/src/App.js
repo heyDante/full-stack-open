@@ -70,9 +70,9 @@ const CreateNew = (props) => {
   // const [content, setContent] = useState('')
   // const [author, setAuthor] = useState('')
   // const [info, setInfo] = useState('')
-  const content = useField('text', 'content');
-  const author = useField('text', 'author');
-  const info = useField('text', 'info');
+  const { reset: resetContent, ...content } = useField('text', 'content');
+  const { reset: resetAuthor, ...author } = useField('text', 'author');
+  const { reset: resetInfo, ...info } = useField('text', 'info');
 
   const history = useHistory();
 
@@ -93,9 +93,9 @@ const CreateNew = (props) => {
   };
 
   const handleReset = () => {
-    content.reset();
-    author.reset();
-    info.reset();
+    resetContent();
+    resetAuthor();
+    resetInfo();
   };
 
   return (
