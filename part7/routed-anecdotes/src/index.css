@@ -34,7 +34,7 @@ li {
 }
 
 /* -- Form -- */
-.form button {
+button {
   padding: 5px 10px;
   border-style: none;
   background-color: #2e2e2e;
@@ -44,6 +44,14 @@ li {
   letter-spacing: 0.05em;
   margin-top: 10px;
   cursor: pointer;
+  margin-right: 10px;
+  border: 1px solid #2e2e2e;
+}
+
+button:not([type="submit"]) {
+  background-color: transparent;
+  color: #2e2e2e;
+  border: 1px solid #2e2e2e;
 }
 
 .form div {
