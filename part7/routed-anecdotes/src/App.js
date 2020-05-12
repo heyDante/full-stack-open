@@ -4,8 +4,11 @@ import {
   Route, 
   Switch, 
   useRouteMatch,
-  useHistory, 
+  useHistory,
+  Redirect
 } from 'react-router-dom';
+
+import { useField } from './hooks';
 
 const Menu = () => {
   return (
@@ -64,25 +67,24 @@ const Footer = () => (
 );
 
 const CreateNew = (props) => {
-  const [content, setContent] = useState('')
-  const [author, setAuthor] = useState('')
-  const [info, setInfo] = useState('')
+  // const [content, setContent] = useState('')
+  // const [author, setAuthor] = useState('')
+  // const [info, setInfo] = useState('')
+  const content = useField('text', 'content');
+  const author = useField('text', 'author');
+  const info = useField('text', 'info');
 
   const history = useHistory();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     props.addNew({
-      content,
-      author,
-      info,
+      content: content.value,
+      author: author.value,
+      info: info.value,
       votes: 0
     });
-    props.setNotification(content);
-    
-    setContent('');
-    setAuthor('');
-    setInfo('');
+    props.setNotification(content.value);
 
     history.push('/');
     setTimeout(() => {
@@ -96,15 +98,15 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           <label>Content</label>
-          <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
+          <input {...content} />
         </div>
         <div>
           <label>Author</label>
-          <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
+          <input {...author} />
         </div>
         <div>
           <label>Url</label>
-          <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} />
+          <input {...info} />
         </div>
         <button>create</button>
       </form>
@@ -174,7 +176,11 @@ const App = () => {
 
         <Switch>
           <Route path='/anecdote/:id'>
-            <Anecdote anecdote={anecdote} />
+            {
+              anecdote
+                ? <Anecdote anecdote={anecdote} />
+                : <Redirect to='/' />
+            }
           </Route>
 
           <Route path='/about'>
