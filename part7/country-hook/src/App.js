@@ -32,7 +32,8 @@ const useCountry = (name) => {
       })
       .catch(error => {
         setCountry({
-          found: false
+          found: false,
+          name: name
         });
         console.log(error);
       }); 
@@ -43,23 +44,39 @@ const useCountry = (name) => {
 
 const Country = ({ country }) => {
   if (!country) {
-    return null;
+    return (
+      <div className="start">
+        Start searching for your country!
+      </div>
+    );
   }
 
   if (!country.found) {
     return (
-      <div>
-        not found...
+      <div className="not-found">
+        <div className="not-found-icon"></div>
+        <span className="not-found-text">
+          What are you even searching? <br />
+          Is <span style={{fontWeight: '500'}}>{country.name}</span> a country?
+        </span>
       </div>
     );
   }
 
   return (
-    <div>
+    <div className="country">
       <h3>{country.data.name} </h3>
-      <div>capital {country.data.capital} </div>
-      <div>population {country.data.population}</div> 
-      <img src={country.data.flag} height='100' alt={`flag of ${country.data.name}`}/>  
+      <div className="label">
+        capital 
+        <span className="data">{country.data.capital} </span>
+      </div>
+      <div className="label">population 
+        <span className="data">{country.data.population} </span>
+      </div> 
+      <div className="label">region 
+        <span className="data">{country.data.region} </span>
+      </div> 
+      <img className="country-image" src={country.data.flag} height='100' alt={`flag of ${country.data.name}`}/>  
     </div>
   );
 };
@@ -75,13 +92,17 @@ const App = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={fetch}>
-        <input {...nameInput} />
-        <button>find</button>
-      </form>
-
+    <div className="app">
       <Country country={country} />
+
+      <form onSubmit={fetch}>
+        <input {...nameInput} placeholder="country"/>
+        <button>
+          <div className="search">
+          </div>
+        </button>
+        <br style={{clear: 'both'}}/>
+      </form>
     </div>
   );
 };

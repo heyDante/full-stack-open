@@ -1,0 +1,184 @@
+:root {
+  --scale: 0.7;
+}
+
+body {
+  background-color: #eeeeee;
+  padding: 2rem;
+  max-width: 30rem;
+  margin: 0 auto;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* -- App -- */
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.start {
+  margin-top: 10rem;
+  color: hsl(0, 0%, 23%);
+  font-size: 16px;
+
+}
+
+/* -- Country -- */
+.country {
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 12px;
+  margin-top: 5rem;
+}
+
+.label {
+  color: hsl(0, 0%, 23%);
+  font-size: 12px;
+}
+
+.label .data {
+  font-size: 14px;
+  color: hsl(0, 0%, 13%);
+  font-weight: 600;
+  margin-left: 5px;
+}
+
+.country-image {
+  margin-top: 18px;
+  box-shadow: 0px 3px 8px hsl(0, 0%, 88%);
+}
+
+/* -- Form -- */
+form {
+  margin-top: 2rem;
+  position: relative;
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+input {
+  width: 70%;
+  border-radius: 100px;
+  border-style: none;
+  border: 2px solid transparent;
+  outline: none;
+  padding: 10px 20px;
+  position: absolute;
+  transition: border 0.2s;
+  font-size: 16px;
+  box-shadow: 0px 1px 20px 0px rgba(226, 226, 226, 0.92);
+
+}
+
+input::placeholder {
+  font-size: 14px;
+}
+
+input:focus {
+  border-color: #03A9F4;
+}
+
+input:focus + button .search {
+  color: hsl(199, 99%, 40%);
+  --scale: 0.8;
+}
+
+button {
+  padding: 5px 12px;
+  border: none;
+  position: absolute;
+  top: 0;
+  right: 10%;
+  background-color: transparent;
+  color: rgb(124, 124, 124);
+}
+
+.search {
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  transform: scale(var(--scale,1));
+  width: 16px;
+  height: 16px;
+  border: 2px solid;
+  border-radius: 100%;
+  margin-left: -4px;
+  margin-top: -4px;
+  transition: color 0.3s, transform 0.2s cubic-bezier(0.33, 1, 0.68, 1);
+}
+  
+.search::after {
+    content: "";
+    display: block;
+    box-sizing: border-box;
+    position: absolute;
+    border-radius: 3px;
+    width: 2px;
+    height: 8px;
+    background: currentColor;
+    transform: rotate(-45deg);
+    top: 10px;
+    left: 12px
+}
+
+/* -- Not found -- */
+.not-found {
+  margin-top: 10rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: hsl(0, 0%, 23%);
+}
+
+.not-found-icon {
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  transform: scale(2);
+  width: 20px;
+  height: 20px;
+  border: 2px solid;
+  border-radius: 100px;
+  color: hsl(0, 0%, 53%);
+}
+.not-found-icon::after,
+.not-found-icon::before {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+  left: 4px
+}
+.not-found-icon::before {
+  background: currentColor;
+  box-shadow: 6px 0 0;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  top: 5px
+}
+.not-found-icon::after {
+  width: 8px;
+  height: 4px;
+  border-radius: 150px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border: 2px solid;
+  border-top-color: transparent;
+  top: 9px;
+  transform: scaleY(-1)
+}
+
+.not-found-text {
+  font-size: 15px;
+  display: inline-block;
+  margin-top: 15px;
+  text-align: center;
+}
