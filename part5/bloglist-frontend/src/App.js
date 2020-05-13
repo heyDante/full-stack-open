@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
 import Blog from './components/Blog/Blog';
 import Notification from './components/Notification/Notfication';
@@ -7,14 +8,17 @@ import BlogForm from './components/BlogForm/BlogForm';
 import loginService from './services/login';
 import blogService from './services/blogs';
 
+import { setNotification } from './reducers/notificationReducer';
+
 import './App.css';
 
 function App() {
+  const dispatch = useDispatch();
+
   const [ blogs, setBlogs ] = useState([]);
   const [ username, setUsername ] = useState('');
   const [ password, setPassword ] = useState('');
   const [ user, setUser ] = useState(null);
-  const [ notificationObject, setNotificationObject ] = useState({ type: null });
 
   useEffect(() => {
     blogService.getAll()
@@ -36,18 +40,9 @@ function App() {
 
   useEffect(() => {
     if(user) {
-      setNotificationObject({
-        type: 'loggedIn',
-        user: user.username
-      });
-
-      setTimeout(() => {
-        setNotificationObject({
-          type: 'null'
-        });
-      }, 3000);
+      dispatch(setNotification('login', 'succesfully logged in', 3));
     }
-  }, [user]);
+  }, [user, dispatch]);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -57,21 +52,13 @@ function App() {
 
       /* -- Setting token when logging in -- */
       blogService.setToken(userDetails.token);
-      console.log(userDetails.token);
+      // console.log(userDetails.token);
 
       /* --Setting the userdetails to local storage for persisiting sessions -- */
       window.localStorage.setItem('loggedInUser', JSON.stringify(userDetails));
 
     } catch (error) {
-      setNotificationObject({
-        type: 'error',
-        message: 'Invalid username or password'
-      });
-      setTimeout(() => {
-        setNotificationObject({
-          type: null
-        });
-      }, 3000);
+      dispatch(setNotification('error', 'invalid username or password', 3));
       console.log('Invalid username or password');
     }
   };
@@ -80,15 +67,7 @@ function App() {
     window.localStorage.clear();
     setUser(null);
 
-    setNotificationObject({
-      type: 'loggedOut'
-    });
-
-    setTimeout(() => {
-      setNotificationObject({
-        type: 'null'
-      });
-    }, 3000);
+    dispatch(setNotification('logout', 'succesfully logged out', 3));
   };
 
   const handleLike = async (blog) => {
@@ -133,17 +112,8 @@ function App() {
       const updatedBlogs = await blogService.getAll();
       setBlogs(updatedBlogs);
 
-      setNotificationObject({
-        type: 'created',
-        title: savedBlog.title,
-        author: savedBlog.author
-      });
-
-      setTimeout(() => {
-        setNotificationObject({
-          type: null
-        });
-      }, 5000);
+      const notificationMessage = `Added ${savedBlog.title} by ${savedBlog.author}`;
+      dispatch(setNotification('created', notificationMessage, 3));
 
     } catch (error) {
       console.log('Error, creating blog');
@@ -153,7 +123,7 @@ function App() {
   if (user === null) {
     return (
       <div>
-        <Notification notificationObject={notificationObject}/>
+        <Notification />
         <h2>Log In</h2>
         <form onSubmit={handleLogin}>
           <div>
@@ -174,7 +144,7 @@ function App() {
 
   return (
     <div>
-      <Notification notificationObject={notificationObject}/>
+      <Notification />
       <div>
         <p>{`${user.name} logged in`}</p>
         <button onClick={handleLogout}>Log out</button>

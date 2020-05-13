@@ -1,49 +1,20 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import './Notification.css';
 
-const Notification = ({ notificationObject }) => {
-  const { type } = notificationObject;
+const Notification = () => {
+  const { notificationType, message } = useSelector(state => state.notification);
 
-  if (type === 'created') {
-    const { title, author } = notificationObject;
-    return (
-      <div className={`notification-box ${type}`}>
-        Added
-        <span> {title} </span>
-        by
-        <span> {author}</span>
-      </div>
-    );
+  if (notificationType === 'empty') {
+    return null;
   }
 
-  if (type === 'loggedIn') {
-    const { user } = notificationObject;
-    return (
-      <div className={`notification-box ${type}`}>
-        <span>{user}</span> logged in
-      </div>
-    );
-  }
-
-  if (type === 'loggedOut') {
-    return (
-      <div className={`notification-box ${type}`}>
-        Succesfully logged out!
-      </div>
-    );
-  }
-
-  if (type === 'error') {
-    const { message } = notificationObject;
-    return (
-      <div className={`notification-box ${type}`}>
-        {message}
-      </div>
-    );
-  }
-
-  return null;
+  return (
+    <div className="notification">
+      {message}
+    </div>
+  );
 };
 
 export default Notification;

@@ -1,18 +1,6 @@
-.notification-box {
+.notification {
   padding: 1rem 2rem;
   border-radius: 5px;
-}
-
-.created, .loggedIn, .loggedOut {
   background-color: hsla(120, 80%, 86%, 1);
   color: hsl(120, 45%, 31%);
-}
-
-.created span {
-  font-weight: 600;
-}
-
-.error {
-  background-color: hsla(0, 80%, 86%, 1);
-  color: hsl(0, 45%, 31%);
 }
