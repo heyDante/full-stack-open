@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useRouteMatch } from 'react-router-dom';
 
 import Blog from './components/Blog/Blog';
 import Notification from './components/Notification/Notfication';
 import BlogForm from './components/BlogForm/BlogForm';
 import UsersList from './components/UsersList/UsersList';
+import User from './components/User/User';
 
 import loginService from './services/login';
 
@@ -20,6 +21,14 @@ function App() {
   const dispatch = useDispatch();
   const blogs = useSelector(state => state.blogs);
   const user = useSelector(state => state.user);
+  const usersList = useSelector(state => state.usersList);
+
+  /* -- Route Match -- */
+  const match = useRouteMatch('/users/:id');
+  // console.log(useSelector(state => state.usersList.find(user => user.id === match.params.id)));
+  const userToDisplay = match
+    ? usersList.find(user => user.id === match.params.id)
+    : null;
 
   const [ username, setUsername ] = useState('');
   const [ password, setPassword ] = useState('');
@@ -104,9 +113,14 @@ function App() {
         <button onClick={handleLogout}>Log out</button>
       </div>
       <Switch>
+        <Route path='/users/:id'>
+          <User user={userToDisplay} />
+        </Route>
+
         <Route path='/users'>
           <UsersList />
         </Route>
+
         <Route path='/'>
           <BlogForm />
           <h2>blogs</h2>

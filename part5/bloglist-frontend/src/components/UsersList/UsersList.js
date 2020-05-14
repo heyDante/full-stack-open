@@ -1,10 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
-const UserInfo = ({ name, blogs }) => {
+const UserInfo = ({ name, blogs, id }) => {
+  const history = useHistory();
   return (
     <tr>
-      <td>{name}</td>
+      <td onClick={() => history.push(`/users/${id}`)}>{name}</td>
       <td>{blogs.length}</td>
     </tr>
   );
@@ -25,7 +27,12 @@ const UsersList = () => {
         <tbody>
           {
             users.map(({ name, blogs, id }) =>
-              <UserInfo key={id} name={name} blogs={blogs} />
+              <UserInfo
+                key={id}
+                name={name}
+                blogs={blogs}
+                id={id}
+              />
             )
           }
         </tbody>
