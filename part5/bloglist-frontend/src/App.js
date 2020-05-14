@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Route, Switch } from 'react-router-dom';
 
 import Blog from './components/Blog/Blog';
 import Notification from './components/Notification/Notfication';
 import BlogForm from './components/BlogForm/BlogForm';
+import UsersList from './components/UsersList/UsersList';
 
 import loginService from './services/login';
 
 import { setNotification } from './reducers/notificationReducer';
 import { blogInitialization, addLike, deleteBlog } from './reducers/blogReducer';
 import { loginUser, logoutUser } from './reducers/userReducer';
+import { initializeUsersList } from './reducers/usersListReducer';
 
 import './App.css';
 
@@ -23,6 +26,7 @@ function App() {
 
   useEffect(() => {
     dispatch(blogInitialization());
+    dispatch(initializeUsersList());
   }, [dispatch]);
 
   useEffect(() => {
@@ -99,18 +103,26 @@ function App() {
         <p>{`${user.name} logged in`}</p>
         <button onClick={handleLogout}>Log out</button>
       </div>
-      <BlogForm />
-      <h2>blogs</h2>
-      {blogs
-        .sort((blogOne, blogTwo) => blogTwo.likes - blogOne.likes)
-        .map(blog =>
-          <Blog
-            key={blog.id}
-            blog={blog}
-            handleLike={handleLike}
-            handleDelete={handleDelete}
-          />
-        )}
+      <Switch>
+        <Route path='/users'>
+          <UsersList />
+        </Route>
+        <Route path='/'>
+          <BlogForm />
+          <h2>blogs</h2>
+          {blogs
+            .sort((blogOne, blogTwo) => blogTwo.likes - blogOne.likes)
+            .map(blog =>
+              <Blog
+                key={blog.id}
+                blog={blog}
+                handleLike={handleLike}
+                handleDelete={handleDelete}
+              />
+            )}
+        </Route>
+      </Switch>
+
     </div>
   );
 }
