@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 
 import Blog from './components/Blog/Blog';
+import BlogsList from './components/BlogsList/BlogsList';
 import Notification from './components/Notification/Notfication';
 import BlogForm from './components/BlogForm/BlogForm';
 import UsersList from './components/UsersList/UsersList';
@@ -24,10 +25,14 @@ function App() {
   const usersList = useSelector(state => state.usersList);
 
   /* -- Route Match -- */
-  const match = useRouteMatch('/users/:id');
-  // console.log(useSelector(state => state.usersList.find(user => user.id === match.params.id)));
-  const userToDisplay = match
-    ? usersList.find(user => user.id === match.params.id)
+  const matchUserRoute = useRouteMatch('/users/:id');
+  const userToDisplay = matchUserRoute
+    ? usersList.find(user => user.id === matchUserRoute.params.id)
+    : null;
+
+  const matchBlogRoute = useRouteMatch('/blogs/:id');
+  const blogToDisplay = matchBlogRoute
+    ? blogs.find((blog) => blog.id === matchBlogRoute.params.id)
     : null;
 
   const [ username, setUsername ] = useState('');
@@ -117,23 +122,22 @@ function App() {
           <User user={userToDisplay} />
         </Route>
 
+        <Route path='/blogs/:id'>
+          <Blog
+            blog={blogToDisplay}
+            handleLike={handleLike}
+            handleDelete={handleDelete}
+          />
+        </Route>
+
         <Route path='/users'>
           <UsersList />
         </Route>
 
         <Route path='/'>
           <BlogForm />
-          <h2>blogs</h2>
-          {blogs
-            .sort((blogOne, blogTwo) => blogTwo.likes - blogOne.likes)
-            .map(blog =>
-              <Blog
-                key={blog.id}
-                blog={blog}
-                handleLike={handleLike}
-                handleDelete={handleDelete}
-              />
-            )}
+          <h2>Blogs</h2>
+          <BlogsList />
         </Route>
       </Switch>
 
