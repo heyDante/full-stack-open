@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Blog from './components/Blog/Blog';
 import Notification from './components/Notification/Notfication';
@@ -9,24 +9,21 @@ import loginService from './services/login';
 import blogService from './services/blogs';
 
 import { setNotification } from './reducers/notificationReducer';
+import { blogInitialization } from './reducers/blogReducer';
 
 import './App.css';
 
 function App() {
   const dispatch = useDispatch();
+  const blogs = useSelector(state => state.blogs);
 
-  const [ blogs, setBlogs ] = useState([]);
   const [ username, setUsername ] = useState('');
   const [ password, setPassword ] = useState('');
   const [ user, setUser ] = useState(null);
 
   useEffect(() => {
-    blogService.getAll()
-      .then((initialBlogs => {
-        setBlogs(initialBlogs);
-      }));
-  }, []);
-
+    dispatch(blogInitialization());
+  }, [dispatch]);
 
   /* -- Adding loggedInUser if available -- */
   useEffect(() => {
@@ -83,8 +80,8 @@ function App() {
       console.log(response);
 
       /* -- Updated the existing blogs present in our App, with the new data from database -- */
-      const updatedBlogs = await blogService.getAll();
-      setBlogs(updatedBlogs);
+      // const updatedBlogs = await blogService.getAll();
+      // setBlogs(updatedBlogs);
 
     } catch (error) {
       console.log('error liking blog', error);
@@ -97,26 +94,12 @@ function App() {
         await blogService.removeBlog(blog.id);
 
         /* -- Updated the existing blogs present in our App, with the new data from database -- */
-        const updatedBlogs = await blogService.getAll();
-        setBlogs(updatedBlogs);
+        // const updatedBlogs = await blogService.getAll();
+        // setBlogs(updatedBlogs);
 
       } catch (error) {
         console.log('error');
       }
-    }
-  };
-
-  const addBlog = async (newBlog) => {
-    try {
-      const savedBlog = await blogService.createBlog(newBlog);
-      const updatedBlogs = await blogService.getAll();
-      setBlogs(updatedBlogs);
-
-      const notificationMessage = `Added ${savedBlog.title} by ${savedBlog.author}`;
-      dispatch(setNotification('created', notificationMessage, 3));
-
-    } catch (error) {
-      console.log('Error, creating blog');
     }
   };
 
@@ -149,7 +132,7 @@ function App() {
         <p>{`${user.name} logged in`}</p>
         <button onClick={handleLogout}>Log out</button>
       </div>
-      <BlogForm addBlog={addBlog} />
+      <BlogForm />
       <h2>blogs</h2>
       {blogs
         .sort((blogOne, blogTwo) => blogTwo.likes - blogOne.likes)

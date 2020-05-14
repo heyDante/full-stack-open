@@ -1,27 +1,30 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import Togglable from '../Togglable/Togglable';
 
-const BlogForm = ({ addBlog }) => {
+import { addBlog } from '../../reducers/blogReducer';
+
+const BlogForm = () => {
+  const dispatch = useDispatch();
 
   const [ title, setTitle ] = useState('');
   const [ author, setAuthor ] = useState('');
   const [ url, setUrl ] = useState('');
 
-  const handleCreateBlog = async (event) => {
-    event.preventDefault();
+  const handleCreateBlog = async (e) => {
     try {
-      addBlog({
+      e.preventDefault();
+      dispatch(addBlog({
         title,
         author,
         url
-      });
-
+      }));
       setTitle('');
       setAuthor('');
       setUrl('');
     } catch (error) {
-      console.log('Error creating blog. Invalid User');
+      console.log('Error, creating blog');
     }
   };
 
