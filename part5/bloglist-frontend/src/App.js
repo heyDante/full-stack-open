@@ -9,7 +9,7 @@ import loginService from './services/login';
 import blogService from './services/blogs';
 
 import { setNotification } from './reducers/notificationReducer';
-import { blogInitialization } from './reducers/blogReducer';
+import { blogInitialization, addLike, deleteBlog } from './reducers/blogReducer';
 
 import './App.css';
 
@@ -67,39 +67,13 @@ function App() {
     dispatch(setNotification('logout', 'succesfully logged out', 3));
   };
 
-  const handleLike = async (blog) => {
-    console.log('Liked');
-
-    const updatedBlog = {
-      ...blog,
-      likes: blog.likes + 1
-    };
-
-    try {
-      const response = await blogService.addLikes(updatedBlog, blog.id);
-      console.log(response);
-
-      /* -- Updated the existing blogs present in our App, with the new data from database -- */
-      // const updatedBlogs = await blogService.getAll();
-      // setBlogs(updatedBlogs);
-
-    } catch (error) {
-      console.log('error liking blog', error);
-    }
+  const handleLike = (blog) => {
+    dispatch(addLike(blog));
   };
 
-  const handleDelete = async (blog) => {
+  const handleDelete = (blog) => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
-      try {
-        await blogService.removeBlog(blog.id);
-
-        /* -- Updated the existing blogs present in our App, with the new data from database -- */
-        // const updatedBlogs = await blogService.getAll();
-        // setBlogs(updatedBlogs);
-
-      } catch (error) {
-        console.log('error');
-      }
+      dispatch(deleteBlog(blog));
     }
   };
 
