@@ -8,6 +8,7 @@ import Notification from './components/Notification/Notfication';
 import BlogForm from './components/BlogForm/BlogForm';
 import UsersList from './components/UsersList/UsersList';
 import User from './components/User/User';
+import NavBar from './components/NavBar/NavBar';
 
 import loginService from './services/login';
 
@@ -113,10 +114,7 @@ function App() {
   return (
     <div>
       <Notification />
-      <div>
-        <p>{`${user.name} logged in`}</p>
-        <button onClick={handleLogout}>Log out</button>
-      </div>
+      <NavBar user={user} handleLogout={handleLogout} />
       <Switch>
         <Route path='/users/:id'>
           <User user={userToDisplay} />
