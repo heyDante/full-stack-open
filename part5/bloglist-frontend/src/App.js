@@ -6,34 +6,31 @@ import Notification from './components/Notification/Notfication';
 import BlogForm from './components/BlogForm/BlogForm';
 
 import loginService from './services/login';
-import blogService from './services/blogs';
 
 import { setNotification } from './reducers/notificationReducer';
 import { blogInitialization, addLike, deleteBlog } from './reducers/blogReducer';
+import { loginUser, logoutUser } from './reducers/userReducer';
 
 import './App.css';
 
 function App() {
   const dispatch = useDispatch();
   const blogs = useSelector(state => state.blogs);
+  const user = useSelector(state => state.user);
 
   const [ username, setUsername ] = useState('');
   const [ password, setPassword ] = useState('');
-  const [ user, setUser ] = useState(null);
 
   useEffect(() => {
     dispatch(blogInitialization());
   }, [dispatch]);
 
-  /* -- Adding loggedInUser if available -- */
   useEffect(() => {
     const loggedInUserAvailable = window.localStorage.getItem('loggedInUser');
     if(loggedInUserAvailable) {
-      setUser(JSON.parse(loggedInUserAvailable));
-      // console.log('useEffect', JSON.parse(loggedInUserAvailable).token);
-      blogService.setToken(JSON.parse(loggedInUserAvailable).token);
+      dispatch(loginUser(JSON.parse(loggedInUserAvailable)));
     }
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if(user) {
@@ -45,12 +42,9 @@ function App() {
     event.preventDefault();
     try {
       const userDetails = await loginService.login({ username, password });
-      setUser(userDetails);
-
-      /* -- Setting token when logging in -- */
-      blogService.setToken(userDetails.token);
-      // console.log(userDetails.token);
-
+      dispatch(loginUser(userDetails));
+      setUsername('');
+      setPassword('');
       /* --Setting the userdetails to local storage for persisiting sessions -- */
       window.localStorage.setItem('loggedInUser', JSON.stringify(userDetails));
 
@@ -62,8 +56,7 @@ function App() {
 
   const handleLogout = () => {
     window.localStorage.clear();
-    setUser(null);
-
+    dispatch(logoutUser());
     dispatch(setNotification('logout', 'succesfully logged out', 3));
   };
 
