@@ -20,6 +20,22 @@ const Blog = ({ blog, handleLike, handleDelete }) => {
       <a href={blog.url}>{blog.url}</a>
       <p className='blog-username'>Added by {blog.user.name}</p>
       <button className='blog-delete' onClick={() => handleDelete(blog)}>remove</button>
+
+      <div className="comments">
+        <h4>Comments</h4>
+        {
+          blog.comments.length
+            ?
+            <ul>
+              {
+                blog.comments.map((comment) =>
+                  <li key={comment}>{comment}</li>
+                )
+              }
+            </ul>
+            : <div>Add your first comment</div>
+        }
+      </div>
     </div>
   );
 };
