@@ -43,10 +43,21 @@ const removeBlog = async (blogId) => {
   }
 };
 
+const addComment = async (id, comment) => {
+  try {
+    const url = `${baseUrl}/${id}/comments`;
+    const response = await axios.post(url, { comment });
+    return response.data;
+  } catch (error) {
+    console.log('Error adding comment');
+  }
+};
+
 export default {
   getAll,
   createBlog,
   addLikes,
   removeBlog,
-  setToken
+  setToken,
+  addComment
 };
