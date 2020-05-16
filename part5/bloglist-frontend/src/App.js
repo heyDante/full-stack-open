@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import styled from 'styled-components';
 
 import Blog from './components/Blog/Blog';
 import BlogsList from './components/BlogsList/BlogsList';
@@ -91,23 +92,19 @@ function App() {
 
   if (user === null) {
     return (
-      <div>
+      <>
         <Notification />
-        <h2>Log In</h2>
-        <form onSubmit={handleLogin}>
-          <div>
-            <label htmlFor='username'>username</label>
-            <input id='username' type='text' value={username} onChange={({ target }) => setUsername(target.value)}/>
-          </div>
+        <LogInPage>
+          <h2>Log In</h2>
+          <form onSubmit={handleLogin}>
+            <Input placeholder="username" id='username' type='text' value={username} onChange={({ target }) => setUsername(target.value)}/>
 
-          <div>
-            <label htmlFor='password'>password</label>
-            <input id='password' type='password' value={password} onChange={({ target }) => setPassword(target.value)}/>
-          </div>
+            <Input placeholder="password" id='password' type='password' value={password} onChange={({ target }) => setPassword(target.value)}/>
 
-          <button type='submit'>Log In</button>
-        </form>
-      </div>
+            <Button type='submit'>Log In</Button>
+          </form>
+        </LogInPage>
+      </>
     );
   }
 
@@ -134,13 +131,62 @@ function App() {
 
         <Route path='/'>
           <BlogForm />
-          <h2>Blogs</h2>
-          <BlogsList />
+          <BlogsList blogs={blogs}/>
         </Route>
       </Switch>
 
     </div>
   );
 }
+
+/* -- Styles -- */
+const LogInPage = styled.div`
+  h2 {
+    margin-bottom: 1em;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  } 
+
+  background-color: #fff;
+  padding: 5em;
+  padding-top: 4em;
+  margin-top: 5em;
+  border-radius: 18px;
+`;
+
+
+const Input = styled.input`
+  font-size: 12px;
+  border: none;
+  outline: none;
+  padding: 1em 2.1em;
+  margin-bottom: 1em;
+  background-color: #fbfbfb;
+`;
+
+const Button = styled.button`
+  font-size: 13px;
+  text-transform: uppercase;
+  border-style: none;
+  padding: 0.7em 1.1em;
+  background-color: #1eacff;
+  color: white;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  margin-top: 1em;
+  border-radius: 5px;
+  outline: none;
+  transition: background-color 0.2s;
+
+  &:active {
+    background-color: #0095eb;
+  }
+`;
 
 export default App;
